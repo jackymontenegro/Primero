@@ -16,8 +16,14 @@ public class Ejemplo1 {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+	int a = 20;
+        System.out.println("hola moshimo :3");
+        
+        while(a == 20){
+            
+            System.out.println("mosho teamo <3\n");
+        }
 		
-		System.out.println("hola moshimo :3");
     }
     
 }
