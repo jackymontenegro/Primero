@@ -1,0 +1,487 @@
+package Analizadores_java;
+import java_cup.runtime.Symbol;
+import proyectocompi.ServidorAnalisis;
+
+
+
+
+//PARSER 
+parser code
+{://Codigo visible
+    
+    String Errores="";
+    public void syntax_error(Symbol s){
+        System.out.println("Error R de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
+        Errores+="Error R de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1)+"\n";
+        
+    }
+
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+        System.out.println("Error NR de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
+        Errores+="Error NR de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1)+"\n";
+        
+        //ingreso.jLabel5.setText(Errores);
+    }
+
+:}
+
+action code
+{://Codigo de usuario
+    String temp="";
+    String dec="";
+    String exp="";
+    String nm="";
+    String cor="";
+    String cade="";
+    String param="";
+    
+    String Scanner= "\t static Scanner sc = new Scanner(System.in)\n";
+    String idFun="";
+    String Cond="";
+    String ifa="";
+    String Cond2="";
+    
+:}
+
+
+terminal String STATIC1, FINAL1,PUB,PRIV, PROT, VOID1,
+                IMPORTS, CLASS1,
+                INT1, BOOL,STR,CHAR1,DOUB,OBJ,
+                NW,
+                IF1, ELS,FOR1,WHILE1,DO1,SWITCH1,CASE1,BREAK1,RETURN1,
+                DEFAULT1,SYS,OUT1,PRINT,MAIN1,
+                TRUE1, FALSE1,NUL,THIS1,PACK,
+                PUNTO,PUNTOYC,DOSP,
+                PAR_A,PAR_C,LLA_A,LLA_C,COR_A,COR_C,
+                COMA,
+                MAS,MENOS,POR,DIV,MOD,
+                AND,OR,MENOR_Q,MAYOR_Q, IGUAL,NOT,
+                
+                CSIMPLE,CMULTIPLE,
+                ENTERO,CADENA,DECIMAL,CARACTER,ID;
+                
+                
+
+
+
+//nonterminal String Acceso,TipoDato,Op,Simbolo, Op_C, 
+         //   Op_Logico,C;
+nonterminal   String Inicio,Paquete,Librerias,A_B,Clase,Cod_Clase,
+                     Sentencias,Visibilidad,M_Main, Sentencias_Main, 
+                      Declaracion_Clase, Sentencias_Funcion,
+                     S_F, Condicional, D_if,Sentencias_if,S_if,
+                     C_While,
+                     Do_While, Seleccion, Cases, Comp_For,
+                     TipoF,B_For, tipo,ListaID,C_For, Funcion,
+                     D,E,Interm,Var,tipo1,B_Var,Comp,
+                     igual_relacional,M_igual,Me_igual,impresion,
+                     Expr_impre,Ex_i, Concatenacion,C_conc,Llamadas,
+                     Llam_adas,Declaracion_M,Constructor,D_constructor,
+                     E_const,Sentencias_Const,Condicion, Expresion,
+                     Complemento,Op,Conca,B_Conca, L_P, Parametro,
+                     Metodo, D_Met,E_Met,Lista_Clases,
+                     Op_S,B_Condicion,negador,S_M,Val_Bool,
+                     Sentencias_While,Dec_For,Op_Logico,Conjuncion,Disyuncion,ComentarioS,ComentarioM,
+                     A_V,Condicional_Ciclo,D_if_Ciclo,Sentencias_if_Ciclo,Sen_if_C,ListaID2
+;
+
+
+precedence nonassoc CADENA,MAS,ID,DOUB,INT1,CHAR1,STR,BOOL,PUNTOYC, MAS, MENOS, POR, DIV, MOD, BREAK1,ELS,LLA_C,OBJ,IF1,
+FOR1,WHILE1,DO1,SWITCH1, RETURN1,SYS ;       
+
+start with Inicio;
+
+Inicio::=  A_V Clase;
+
+A_V::= Paquete
+       |Librerias
+;
+
+Paquete::= Paquete PACK ID PUNTOYC
+           |PACK ID PUNTOYC;
+
+Librerias::= Librerias IMPORTS Lista_Clases PUNTOYC
+             |IMPORTS Lista_Clases PUNTOYC;
+
+Lista_Clases::= Lista_Clases PUNTO A_B
+                | A_B;
+
+A_B::= ID
+       |POR;
+
+Clase::= Visibilidad CLASS1 ID LLA_A Cod_Clase LLA_C;
+
+Cod_Clase::= Cod_Clase Sentencias
+            | Sentencias ;
+
+Sentencias::= M_Main
+              |Constructor
+              |Funcion
+              |Declaracion_Clase
+              // |error PUNTOYC
+              
+              
+              
+;
+
+Visibilidad::= PRIV
+               |PROT
+               |PUB
+               |FINAL1
+;
+
+
+M_Main::= Visibilidad STATIC1 VOID1 MAIN1 PAR_A 
+        STR COR_A COR_C ID PAR_C LLA_A 
+        Sentencias_Main LLA_C
+;
+
+Sentencias_Main::= Sentencias_Main S_M
+                   |S_M
+;
+
+S_M::= Declaracion_M
+       |Condicional
+       |C_While
+       |C_For
+       |Seleccion
+       |Do_While
+       |impresion
+       |Llamadas
+       |ComentarioS
+      
+;
+
+Declaracion_Clase::= Visibilidad Var
+                    |Var
+;
+
+Var::= tipo1 ListaID B_Var
+       |OBJ ListaID IGUAL NW ID PAR_A PAR_C PUNTOYC
+       |OBJ ListaID PUNTOYC
+;
+
+tipo1::= INT1
+         |BOOL
+         |STR
+         |CHAR1
+         |DOUB
+;
+
+B_Var::= IGUAL Expresion PUNTOYC
+        |PUNTOYC
+;
+
+//FUNCIONES---------------------------------------------------------
+Funcion::= Visibilidad Interm
+;
+
+tipo::= tipo1
+        |OBJ
+;
+
+Interm::= tipo1  ID D
+          |VOID1 Metodo
+;
+
+
+D::= PAR_A L_P PAR_C E
+    | PAR_A PAR_C E
+;
+
+E::= LLA_A Sentencias_Funcion RETURN1 Expresion PUNTOYC LLA_C
+;
+
+Sentencias_Funcion::=Sentencias_Main
+;
+
+S_F::= S_M
+      
+;
+
+
+//-------------------------------------------------------------------
+
+
+
+Val_Bool::=  TRUE1
+             |FALSE1
+             |NUL
+;
+
+ListaID::= ListaID COMA ID
+           |ID
+;
+
+
+
+//-------------------------------------------------------------------------
+
+Seleccion::= SWITCH1 PAR_A  ID PAR_C LLA_A Cases
+;
+
+Cases::= CASE1 Op_S DOSP Sentencias_While BREAK1 PUNTOYC Cases
+        |DEFAULT1 Sentencias_While BREAK1 PUNTOYC LLA_C
+        |LLA_C
+        
+;
+
+Op_S::= ENTERO
+        |CADENA
+        |CARACTER
+;
+
+//---------------------------------------------------------------------------------
+C_For::= FOR1 PAR_A Dec_For IGUAL B_For PUNTOYC 
+         ID Comp B_For PUNTOYC ID Comp_For PAR_C  LLA_A
+         Sentencias_While LLA_C
+;
+
+Dec_For::= TipoF ID
+           |ID
+;
+
+TipoF::= INT1
+         |DOUB
+;
+
+B_For::= ENTERO
+         |DECIMAL
+         |ID
+;
+
+Comp_For::= MAS MAS
+            |MENOS MENOS
+
+;
+
+Comp::= MAYOR_Q
+        |MENOR_Q
+        |igual_relacional
+        |M_igual
+        |Me_igual
+;
+
+igual_relacional::= IGUAL IGUAL
+;
+M_igual::= MAYOR_Q IGUAL
+;
+Me_igual::= MENOR_Q IGUAL
+;
+
+
+//-----------------------------------------------------------------------------
+Condicional::= IF1 PAR_A Condicion PAR_C LLA_A Sentencias_if D_if
+;
+
+D_if::= LLA_C ELS IF1 PAR_A Condicion PAR_C LLA_A Sentencias_if  D_if
+        |LLA_C ELS LLA_A Sentencias_if LLA_C
+        |LLA_C ELS IF1 PAR_A Condicion PAR_C LLA_A Sentencias_if 
+        |LLA_C 
+
+;
+
+Condicional_Ciclo::=IF1 PAR_A Condicion PAR_C LLA_A Sentencias_if_Ciclo D_if_Ciclo
+;
+
+D_if_Ciclo::= LLA_C ELS IF1 PAR_A Condicion PAR_C LLA_A Sentencias_if_Ciclo  D_if_Ciclo
+              |LLA_C ELS LLA_A Sentencias_if_Ciclo LLA_C
+              | LLA_C ELS IF1 PAR_A Condicion PAR_C LLA_A Sentencias_if_Ciclo 
+              |LLA_C 
+              
+;
+
+Sentencias_if_Ciclo::= Sentencias_if_Ciclo Sen_if_C
+                       |Sen_if_C
+;
+Sen_if_C::= Var
+            |C_For
+            |C_While
+            |Seleccion
+            |impresion
+            |Llamadas
+            |Do_While
+            |ID IGUAL Expresion PUNTOYC
+            |BREAK1 PUNTOYC
+            |Condicional_Ciclo
+            |RETURN1 Expresion PUNTOYC
+;            
+
+//-------------------------------------------------------------------------------------
+
+C_While::= WHILE1 PAR_A Condicion PAR_C LLA_A Sentencias_While LLA_C
+;
+//-------------------------------------------------------------------------------------------
+
+Do_While::= DO1 LLA_A Sentencias_While LLA_C WHILE1 PAR_A Condicion PAR_C PUNTOYC 
+;
+
+//---------------------------------------------------------------------------------------------
+
+L_P::= L_P COMA Parametro
+        |Parametro
+;
+
+Parametro::= tipo ID
+;
+
+//----------------------------------------------------------------------------------
+
+Metodo::= ID PAR_A D_Met
+          |VOID1 ID PAR_A D_Met
+;
+
+D_Met::= L_P PAR_C E_Met
+        |PAR_C E_Met
+;
+
+E_Met::= LLA_A Sentencias_Funcion LLA_C
+;
+
+//IMPRESION---------------------------------------------------------------
+impresion::= SYS PUNTO OUT1 PUNTO PRINT PAR_A Expr_impre PAR_C PUNTOYC
+;
+
+Expr_impre::= Expr_impre Ex_i
+              |Ex_i
+;
+
+Ex_i::= Concatenacion
+        |CADENA
+        |ENTERO
+        |DECIMAL
+        |CARACTER
+;
+
+Concatenacion ::= MAS C_conc
+;
+
+C_conc::= ENTERO
+          | DECIMAL
+          | CARACTER
+          | CADENA
+;
+//----------------------------------------------------------
+Llamadas::= ID PAR_A Llam_adas  
+            
+
+;
+
+Llam_adas::= Expresion PAR_C PUNTOYC
+             |PAR_C PUNTOYC
+             |Expresion PAR_C
+             
+            
+             
+;
+//------------------------------------------------------------------
+/**
+
+**/
+Declaracion_M::= Var
+;
+//---------------------------------------------------------------------------------
+
+Constructor::= PUB ID PAR_A D_constructor
+;
+
+D_constructor::=  PAR_C E_const
+                  |L_P PAR_C E_const
+;
+
+E_const::= LLA_A Sentencias_Const LLA_C
+;
+
+Sentencias_Const::= Sentencias_Const S_F
+                    | Sentencias_Const THIS1 PUNTO ID IGUAL Expresion PUNTOYC
+                    |THIS1 PUNTO ID IGUAL Expresion PUNTOYC
+;
+//-----------------------------------------------------------------------
+Condicion::= Condicion  Op_Logico ID B_Condicion Expresion
+            |ID B_Condicion Expresion
+;
+
+//----------------------------------------------------------------------
+Expresion::= Expresion ListaID2 Complemento
+             | Complemento
+             |Val_Bool
+             
+;
+
+ListaID2::=Op
+            |COMA
+;
+
+Complemento::= ENTERO
+               |DECIMAL
+               |ID
+               |Llamadas
+               |PAR_A Expresion PAR_C
+               |B_Conca
+;
+
+Op::= MAS
+      |MENOS
+      |POR
+      |DIV
+      |MOD
+;
+
+
+B_Conca::= CADENA
+           |CARACTER
+;
+
+Op_Logico::= Conjuncion
+             |Disyuncion
+;
+
+Conjuncion::= AND AND
+;
+
+Disyuncion::= OR OR
+;
+
+B_Condicion::= Comp
+               |negador
+;
+
+negador::= NOT:a IGUAL:b
+            {:  System.out.println(a+b);
+            :}
+;
+
+Sentencias_While::= Sentencias_if_Ciclo
+                    |Sentencias_While BREAK1 PUNTOYC
+                    
+;
+
+Sentencias_if::= Sentencias_if S_if
+                |S_if
+;
+
+S_if::= Var
+        |C_For
+        |C_While
+        |Seleccion
+        |impresion
+        |Llamadas
+        |Do_While
+        |Condicional
+        |ComentarioS
+        |Conca
+;
+Conca::= RETURN1 Expresion PUNTOYC
+       
+;
+ComentarioS::= ID IGUAL Expresion PUNTOYC
+;
+                
+            
+
+
+         
+
+
+
+
