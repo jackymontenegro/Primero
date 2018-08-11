@@ -33,6 +33,12 @@ import javax.swing.JTextArea;
 import javax.swing.event.CaretEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
+import Anallizadores.*;
+import Listas.erroresList;
+import com.sun.imageio.plugins.jpeg.JPEG;
+import java.io.StringReader;
+import java_cup.runtime.*;
+import java.util.Scanner;
 
 
 /**
@@ -41,6 +47,8 @@ import javax.swing.text.BadLocationException;
  */
 public class Open extends javax.swing.JFrame {
     
+   public static ArrayList<erroresList> lista = new ArrayList();
+   
     JFileChooser seleccionar = new JFileChooser();
     File archivo;
     //FileInputStream entrada;
@@ -59,6 +67,8 @@ public class Open extends javax.swing.JFrame {
     int pestañaIndex=0;
     
     int numeroReporte=0;
+    
+    int fin=0;
     
     
 
@@ -81,6 +91,7 @@ public class Open extends javax.swing.JFrame {
                 documento += linea +'\n';
                AreaT[pestañaIndex].setText(documento);
             }
+            parrafo(AreaT[pestañaIndex].getText());
             
         }catch (IOException e){
             
@@ -91,23 +102,7 @@ public class Open extends javax.swing.JFrame {
         return documento;
         
     }
-    public void abrir(){
-        try{
-            
-            
-            if(seleccionar.showDialog (null,"Abrir")==JFileChooser.APPROVE_OPTION){
-                archivo = seleccionar.getSelectedFile();
-                abrirArchivo(archivo);
-            }
-
-        }catch(HeadlessException r){
-            System.out.println("Error"+r);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Open.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Open.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    
     private void  AreaLugar(CaretEvent e,JTextArea a) throws BadLocationException{
         int cLine = 1;
         int cColumn = 1;
@@ -132,18 +127,47 @@ public class Open extends javax.swing.JFrame {
         
         }
     }
+        public void abrir(){
+        try{
+            
+            
+            if(seleccionar.showDialog (null,"Abrir")==JFileChooser.APPROVE_OPTION){
+                archivo = seleccionar.getSelectedFile();
+                abrirArchivo(archivo);
+               
+            }
+
+        }catch(HeadlessException r){
+            System.out.println("Error"+r);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Open.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Open.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+        public void parrafo (String parrafo){
+       // System.out.println(parrafo);
+//        try {
+//            parser sintactico = new parser(new Lexico(new BufferedReader(new StringReader(parrafo))));
+//            sintactico.parse();
+//        } catch (Exception e) {
+//            Logger.getLogger(Open.class.getName()).log(Level.SEVERE,null,e);
+//        }
+   
+       // imprimirLista();
+    }
     public Open() {
         FileNameExtensionFilter Filter = new FileNameExtensionFilter("Archivo de Entrada","txt");
        seleccionar.setFileFilter(Filter);
 
         initComponents();
-         txtprincipal.setLineWrap(true); 
-         linea = this.txtprincipal.getLineCount();
-        txtprincipal.setWrapStyleWord(true); 
-     txtprincipal.setSelectedTextColor(Color.GREEN);
+//         txtprincipal.setLineWrap(true); 
+//         linea = this.txtprincipal.getLineCount();
+//        txtprincipal.setWrapStyleWord(true); 
+//     txtprincipal.setSelectedTextColor(Color.GREEN);
         
-        TextLineNumber tln = new TextLineNumber(txtprincipal);
-        jScrollPane1.setRowHeaderView(tln);
+        //TextLineNumber tln = new TextLineNumber(txtprincipal);
+     //   jScrollPane1.setRowHeaderView(tln);
         this.setLocationRelativeTo(null);
     }
 //    public String abrir(File archivo) {
@@ -164,9 +188,7 @@ public class Open extends javax.swing.JFrame {
 //        
 //    }
     
-    public void parrafo (String parrafo){
-        System.out.println(parrafo);
-    }
+
     
 //    public void abrirMetodo (){
 //         // TODO add your handling code here:
@@ -209,15 +231,14 @@ public class Open extends javax.swing.JFrame {
         lblColumna = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txte = new javax.swing.JTextArea();
         tp1 = new javax.swing.JTabbedPane();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtprincipal = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("archivo");
@@ -229,7 +250,6 @@ public class Open extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Jacky Montenegro\\Desktop\\moshocompi\\Primero\\ejemplo1\\logoPDF.png")); // NOI18N
-        jButton1.setPreferredSize(new java.awt.Dimension(139, 115));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -237,7 +257,6 @@ public class Open extends javax.swing.JFrame {
         });
 
         jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Jacky Montenegro\\Desktop\\moshocompi\\Primero\\ejemplo1\\logoPDF.png")); // NOI18N
-        jButton2.setPreferredSize(new java.awt.Dimension(139, 115));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -327,9 +346,9 @@ public class Open extends javax.swing.JFrame {
 
         lblColumna.setText("0");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane3.setViewportView(jTextArea1);
+        txte.setColumns(20);
+        txte.setRows(5);
+        jScrollPane3.setViewportView(txte);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -344,12 +363,6 @@ public class Open extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING)
         );
-
-        txtprincipal.setColumns(20);
-        txtprincipal.setRows(5);
-        jScrollPane1.setViewportView(txtprincipal);
-
-        tp1.addTab("Nuevo", jScrollPane1);
 
         jMenu1.setText("Archivo");
 
@@ -372,6 +385,15 @@ public class Open extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Analizar");
+
+        jMenuItem3.setText("jMenuItem3");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem3);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -484,6 +506,41 @@ public class Open extends javax.swing.JFrame {
         g.generarDocumento("TITULO", "REPORTE DE REPROBADOS", numeroReporte,"C:\\Users\\Jacky Montenegro\\Desktop\\imagen.jpg",true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        
+        txte.setText(" ");
+        try {
+            String texto = (AreaT[tp1.getSelectedIndex()]).getText();
+            Lexico scan = new Lexico(new BufferedReader(new StringReader(texto)));
+            parser sintactico = new parser(scan);
+            sintactico.parse();
+            
+           
+        } catch (Exception e) {
+            Logger.getLogger(Open.class.getName()).log(Level.SEVERE,null,e);
+        }
+        if(lista.size()>0){
+            imprimirLista();
+            lista.clear();
+        }else{
+            System.out.println("NO HAY ERRORES");
+        }
+        
+        
+      
+        
+        
+//        pestaña();
+//        
+//        try {
+//            parser sintactico = new parser(new Lexico(new BufferedReader(new StringReader(AreaT[p].getText()))));
+//            sintactico.parse();
+//        } catch (Exception e) {
+//            Logger.getLogger(Open.class.getName()).log(Level.SEVERE,null,e);
+//        }
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -504,15 +561,14 @@ public class Open extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblColumna;
     private javax.swing.JLabel lblLinea;
     private javax.swing.JTabbedPane tp1;
-    private javax.swing.JTextArea txtprincipal;
+    private javax.swing.JTextArea txte;
     // End of variables declaration//GEN-END:variables
 
     private void pestaña() {
@@ -532,12 +588,15 @@ public class Open extends javax.swing.JFrame {
             @Override
             public void caretUpdate(CaretEvent e) {
                 try {
-                    AreaLugar(e,AreaT);
+                    AreaLugar(e, AreaT);
                 } catch (BadLocationException ex) {
                     Logger.getLogger(Open.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
+        
+//        fin = p;
+//        return fin;
         
                 }
     public void generaPDF(int reporte){
@@ -560,6 +619,16 @@ public class Open extends javax.swing.JFrame {
 //            System.out.println("LAURASAD :'c");
 //        }
    }
+    public void imprimirLista (){
+        String x= " ";
+        for ( int i = 0; i<lista.size();i++){
+            System.out.println(lista.get(i).getTipo()+lista.get(i).getLexema()+lista.get(i).getLinea()+lista.get(i).getColumna()+lista.get(i).getDescripcion());
+            x=x+lista.get(i).getTipo()+lista.get(i).getLexema()+lista.get(i).getLinea()+lista.get(i).getColumna()+lista.get(i).getDescripcion()+"\n";
+            txte.setText(" ");
+            txte.setText(x);
+        }
+    }
+
 }
 
     

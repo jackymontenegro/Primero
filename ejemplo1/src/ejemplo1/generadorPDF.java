@@ -5,6 +5,7 @@
  */
 package ejemplo1;
 
+import Listas.erroresList;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Element;
@@ -37,6 +38,8 @@ public class generadorPDF {
 
     public void generarDocumento(String encabezado, String cuerpo, int numero, String logo, boolean linea) {
         try {
+            
+            
 
             Document documento = new Document(PageSize.A1, 47, 36, 36, 10);
 

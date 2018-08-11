@@ -3,7 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Generadores;
+package Anallizadores;
+
+import java.io.File;
+
+
 
 /**
  *
@@ -14,10 +18,11 @@ public class Generadores {
         generarCompilador();
     }
     
-    private static void generarCompilador(){
+    public static void generarCompilador(){
         try {
-            String ruta = "C:\\Users\\Jacky Montenegro\\Desktop\\moshocompi\\Primero\\ejemplo1\\src\\Analizadores\\"; //ruta donde tenemos los archivos con extension .jflex y .cup
+            String ruta = "C:\\Users\\Jacky Montenegro\\Desktop\\moshocompi\\Primero\\ejemplo1\\src\\Anallizadores\\"; //ruta donde tenemos los archivos con extension .jflex y .cup
             String opcFlex[] = { ruta + "AnalisisLexico.jflex", "-d", ruta };
+        //    File fila = new File(opcFlex);
             jflex.Main.generate(opcFlex);
             String opcCUP[] = { "-destdir", ruta, "-parser", "parser", ruta + "AnalisisSintactico.cup" };
             java_cup.Main.main(opcCUP);

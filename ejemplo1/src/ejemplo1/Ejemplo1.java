@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package ejemplo1;
+import Anallizadores.*;
 
 /**
  *
@@ -19,6 +20,9 @@ public class Ejemplo1 {
         // TODO code application logic here
 	Open ventana = new Open();
        ventana.setVisible(true);
+       
+       Generadores.generarCompilador();
+       
     }
     
 }
