@@ -93,6 +93,9 @@ public class erroresList {
         this.columna = columna;
         this.descripcion = descripcion;
     }
-    
+    public erroresList( String lexema) {
+        this.lexema = lexema;
+
+    }
     
 }

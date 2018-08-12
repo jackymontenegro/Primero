@@ -48,6 +48,12 @@ import java.util.Scanner;
 public class Open extends javax.swing.JFrame {
     
    public static ArrayList<erroresList> lista = new ArrayList();
+   public static ArrayList<erroresList> lista2 = new ArrayList();
+   public static ArrayList encabezado = new ArrayList();
+   public static ArrayList cuerpo = new ArrayList();
+   public static ArrayList ponderacion = new ArrayList();
+   public static ArrayList reporte = new ArrayList();
+   public static ArrayList estilo = new ArrayList();
    
     JFileChooser seleccionar = new JFileChooser();
     File archivo;
@@ -386,7 +392,7 @@ public class Open extends javax.swing.JFrame {
 
         jMenu2.setText("Analizar");
 
-        jMenuItem3.setText("jMenuItem3");
+        jMenuItem3.setText("Analizar");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
@@ -516,15 +522,29 @@ public class Open extends javax.swing.JFrame {
             parser sintactico = new parser(scan);
             sintactico.parse();
             
+           // System.out.println(sintactico.dato1);
+            
            
         } catch (Exception e) {
             Logger.getLogger(Open.class.getName()).log(Level.SEVERE,null,e);
         }
         if(lista.size()>0){
             imprimirLista();
+            
             lista.clear();
         }else{
             System.out.println("NO HAY ERRORES");
+            txte.setText("NO HAY ERRORES");
+        }
+        
+        if(lista2.size()>0){
+            imprimirLista2();
+            
+            lista2.clear();
+        }else{
+            System.out.println("NO HAY CADENA");
+            txte.setText("NO HAY CADENA");
+            
         }
         
         
@@ -627,6 +647,19 @@ public class Open extends javax.swing.JFrame {
             txte.setText(" ");
             txte.setText(x);
         }
+    }
+    public void imprimirLista2 (){
+        String x= " ";
+        for ( int i = 0; i<lista2.size();i++){
+            System.out.println(lista2.get(i).getLexema());
+            x=x+lista2.get(i).getLexema()+"\n";
+           // txte.setText(" ");
+          //  txte.setText(x);
+        }
+    }
+    public void traeEncabezado(String a){
+        System.out.println(a);
+        
     }
 
 }

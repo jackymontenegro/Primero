@@ -9,7 +9,19 @@ import Listas.*;
 parser code
 {:
 
-    
+    public String cadena=" ";
+     
+    public void enviarLista(String dato){
+        String[] arrayDato = dato.split(";");
+
+        for(int i = 0; i< arrayDato.length; i++){
+        erroresList list = new erroresList(arrayDato[i]);
+        Open.lista2.add(list);
+        }
+
+    	
+    }
+
     /**Metodo al que se llama automáticamente ante algún error sintactico.*/
     public void syntax_error(Symbol s){
         System.err.println("Error en la Línea " + (s.right+1) +" Columna "+(s.left+1)+ ". Identificador "
@@ -63,99 +75,128 @@ non terminal INICIO, TITULOS, TITULO, ETIQUETAS,ETIQUETA,ENCAS,ENCA,CUERS,CUER,P
 /* ­­­­­­­­­­­­­­ Declaración de la gramática  ­­­­­­­­­­­ */
 start with INICIO; // start with sirve para indicarle al parser con que produccion empezar
 
+INICIO::=  TITULOS:tlos {:
+cadena=tlos.toString();
+enviarLista(cadena);
 
-INICIO::=  TITULOS  ;
+System.out.println(cadena);:} ;
 
-TITULOS::= TITULOS TITULO
-           |TITULO;
+TITULOS::= TITULOS:tlos TITULO:tlo {:RESULT = tlos.toString()+tlo.toString();:} 
+           |TITULO:tlo {:RESULT = tlo.toString();:} 
+;
 
-TITULO::= abre ETIQUETAS cierra;
+TITULO::= abre ETIQUETAS:etqs cierra
+{:RESULT = etqs.toString();:} ;
 
-ETIQUETAS::= ETIQUETAS ETIQUETA
-            |ETIQUETA;
+ETIQUETAS::= ETIQUETAS:etqs ETIQUETA:etq{:RESULT = etqs.toString()+etq.toString()+";";:}  
+            |ETIQUETA:etq{:RESULT = etq.toString()+";";:} ;
 
-ETIQUETA::= encabezado ENCAS bar  
-	|cuerpo cierra CUERS abre bar cuerpo 
-	|ponderacion cierra PONDS abre bar ponderacion 
-	|reportes cierra REPORS abre bar reportes 
-	|estilo cierra ESTIS abre bar estilo;
+ETIQUETA::= encabezado:encabe ENCAS:ec bar {:RESULT =encabe.toString()+","+ ec.toString();:}  
+	|cuerpo:cuerp cierra CUERS:crs abre bar cuerpo {:RESULT = cuerp.toString()+","+crs.toString();:}  
+	|ponderacion:pondera cierra PONDS:pds abre bar ponderacion {:RESULT = pondera.toString()+","+pds.toString();:}  
+	|reportes:report cierra REPORS:reps abre bar reportes {:RESULT = report.toString()+","+reps.toString();:}  
+	|estilo:estil cierra ESTIS:ests abre bar estilo{:RESULT = estil.toString()+","+ests.toString();:};
 		
-ENCAS::= ENCAS ENCA
-	|ENCA;
+ENCAS::= ENCAS:ecn ENCA:o {:
+RESULT = ecn.toString()+o+","; :}
+	|ENCA:o
 
-CUERS::= CUERS CUER  
-		|CUER ;
+	{:
+RESULT = o.toString()+","; :};
 		
-PONDS::= PONDS POND
-		|POND;
-
-REPORS::= REPORS REPOR
-		|REPOR;
-		
-ESTIS::= ESTIS ESTI
-		|ESTI;
-		
-ENCA::= id dosPuntos TIPODATO igual TIPOCADENA;
-
-TIPODATO::= escuela
-			|curso
-			|docente
-			|seccion
-			|semestre
-			|año;
-
-TIPOCADENA::= cadena
-			|valorNumerico;
-			
-CUER::= abre estudiante ESTUS bar cierra;
-
-ESTUS::= ESTUS coma ESTU
-        |ESTU; 
-
-ESTU::= id igual TIPOCADENA;
-
-POND::= abre IDES bar cierra;
-
-IDES::= IDES IDE
-		|IDE;
-		
-IDE::=id valor igual porcentaje;
-		
-REPOR::= DRE igual BOL;
-
-DRE::= ra
-		|rr
-		|re
-		|rp;
-		
-BOL::= verdadero
-		|falso;
-
-ESTI::= SENCA SCUERPO;
-
-SENCA::= abre encabezado SSENCA bar cierra;
-
-SCUERPO::= abre cuerpo SSCUERPO bar cierra;
-
-SSENCA::= SSENCA coma EN 
-		|EN;
 	
-EN::= COLE igual cadena;
 
-COLE::= ct
-		|cv
-		|logo;
+CUERS::= CUERS:crs CUER:cr {: RESULT = crs.toString()+cr.toString();:}  
+		|CUER:cr {: RESULT = cr.toString();:}  
+ ;
 		
-SSCUERPO::= SSCUERPO coma CU 
-		|CU;
+PONDS::= PONDS:pds POND:pd {:RESULT = pds.toString()+ pd.toString();:}
+		|POND:pd {:RESULT = pd.toString();:};
+
+REPORS::= REPORS:reps REPOR:rep{: RESULT= reps.toString()+rep.toString()+",";:}
+		|REPOR:rep{: RESULT= rep.toString()+",";:};
 		
-CU::= COLC igual TIPOES;
+ESTIS::= ESTIS:ests ESTI:est{: RESULT=ests.toString()+est.toString();:}
+		|ESTI:est{: RESULT=est.toString();:};
+		
+ENCA::= id:pos dosPuntos TIPODATO:a igual TIPOCADENA:b
+    {: 
 
-TIPOES::= cadena
-		|verdadero
-		|falso;
+RESULT= pos.toString()+","+a.toString()+","+b.toString();
+:};
 
-COLC::= cc
-		|na
-		|nr
-		|bordes;
+
+
+TIPODATO::= escuela:a{:RESULT = a;:}
+			|curso:a {:RESULT = a;:}
+			|docente:a {:RESULT = a;:}
+			|seccion:a {:RESULT = a;:}
+			|semestre:a {:RESULT = a;:}
+			|año:a {:RESULT = a;:};
+
+TIPOCADENA::= cadena:b {:RESULT = b;:}
+			|valorNumerico:b {:RESULT = b;:};
+			
+CUER::= abre estudiante ESTUS:ests bar cierra 
+{: RESULT = ests.toString();:};
+
+ESTUS::= ESTUS:ests coma ESTU:est {: RESULT = ests.toString()+est.toString()+ ",";:}
+        |ESTU:est {: RESULT = est.toString()+ ",";:}; 
+
+ESTU::= id:dat1 igual TIPOCADENA:b
+{: RESULT = dat1.toString()+ "," +b.toString();:}
+;
+
+POND::= abre IDES:ids bar cierra
+{:RESULT = ids.toString();:};
+
+IDES::= IDES:ids IDE:id {:RESULT =ids.toString()+ ","+ id.toString()+",";:}
+		|IDE:id {:RESULT = id.toString()+",";:};
+		
+IDE::=id:dat valor:val igual porcentaje:por
+{: RESULT= dat.toString()+","+val.toString()+","+por.toString();:};
+		
+REPOR::= DRE:repor igual BOL:jacky
+{: RESULT= repor.toString() +","+ jacky.toString();:};
+
+DRE::= ra:repor {:RESULT = repor;:}
+		|rr:repor {:RESULT = repor;:}
+		|re:repor {:RESULT = repor;:}
+		|rp:repor {:RESULT = repor;:};
+		
+BOL::= verdadero:jacky {:RESULT = jacky;:}
+		|falso:jacky {:RESULT = jacky;:};
+
+ESTI::= SENCA:no SCUERPO:scu{: RESULT=no.toString()+scu.toString();:};
+
+SENCA::= abre encabezado SSENCA:ee bar cierra
+{: RESULT= ee.toString();:};
+
+SCUERPO::= abre cuerpo SSCUERPO:sscu bar cierra
+{: RESULT=sscu;:};
+
+SSENCA::= SSENCA:ee coma EN:e{: RESULT = ee.toString()+e.toString()+",";:}
+		|EN:e{: RESULT= e+",";:};
+	
+EN::= COLE:tt igual cadena:cad
+{: RESULT = tt.toString() +","+ cad.toString();:};
+
+COLE::= ct:tt {:RESULT = tt;:}
+		|cv:tt {:RESULT = tt;:}
+		|logo:tt {:RESULT = tt;:};
+		
+SSCUERPO::= SSCUERPO:sscu coma CU:cu{: RESULT= sscu.toString()+cu.toString()+",";:} 
+		|CU:cu{: RESULT= cu+",";:};
+		
+CU::= COLC:yy igual TIPOES:xx
+{: RESULT = yy.toString() +","+ xx.toString();:};
+
+TIPOES::= cadena:xx {:RESULT = xx;:}
+		|verdadero:xx {:RESULT = xx;:}
+		|falso:xx {:RESULT = xx;:};
+
+COLC::= cc:yy {:RESULT = yy;:}
+		|na:yy {:RESULT = yy;:}
+		|nr:yy {:RESULT = yy;:}
+		|bordes:yy {:RESULT = yy;:};
+
