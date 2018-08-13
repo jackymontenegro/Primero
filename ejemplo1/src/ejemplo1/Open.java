@@ -37,179 +37,127 @@ import Anallizadores.*;
 import Listas.erroresList;
 import com.sun.imageio.plugins.jpeg.JPEG;
 import java.io.StringReader;
+import java.util.HashSet;
 import java_cup.runtime.*;
 import java.util.Scanner;
-
 
 /**
  *
  * @author Jacky Montenegro
  */
 public class Open extends javax.swing.JFrame {
-    
-   public static ArrayList<erroresList> lista = new ArrayList();
-   public static ArrayList<erroresList> lista2 = new ArrayList();
-   public static ArrayList encabezado = new ArrayList();
-   public static ArrayList cuerpo = new ArrayList();
-   public static ArrayList ponderacion = new ArrayList();
-   public static ArrayList reporte = new ArrayList();
-   public static ArrayList estilo = new ArrayList();
-   
+
+    public static ArrayList<erroresList> lista = new ArrayList();
+    public static ArrayList<erroresList> lista2 = new ArrayList();
+    public static ArrayList<erroresList> lista3 = new ArrayList();
+    public static ArrayList<erroresList> encabezado = new ArrayList();
+    public static ArrayList<erroresList> cuerpo = new ArrayList();
+    public static ArrayList<erroresList> estilo = new ArrayList();
+    public static ArrayList<erroresList> reporte = new ArrayList();
+    public static ArrayList<erroresList> ponderacion = new ArrayList();
+
     JFileChooser seleccionar = new JFileChooser();
     File archivo;
-    //FileInputStream entrada;
-    //FileOutputStream salida;
     BufferedReader entrada;
     Writer salidaArchivo = null;
     String path;
     String nombreArchivo;
     File nombreArchivoJava;
-    
-    ArrayList <String> textos = new ArrayList<String>();
-    JTextArea AreaT[]= new JTextArea[50];
-    
+
+    ArrayList<String> textos = new ArrayList<String>();
+    JTextArea AreaT[] = new JTextArea[50];
+
     int linea;
-    int p=0;
-    int pestañaIndex=0;
-    
-    int numeroReporte=0;
-    
-    int fin=0;
-    
-    
+    int p = 0;
+    int pestañaIndex = 0;
+
+    int numeroReporte = 0;
+
+    int fin = 0;
+
+    int contE;
+    int contEs;
+    int contC;
+    int contP;
+    int contR;
 
     /**
      * Creates new form Open
      */
     //---------------------------------------------------------------ABRIR
-    
-    public String abrirArchivo (File archivo) throws UnsupportedEncodingException,FileNotFoundException, IOException{
-        
+    public String abrirArchivo(File archivo) throws UnsupportedEncodingException, FileNotFoundException, IOException {
+
         String documento = " ";
-        
+
         pestaña();
-        
-        try{
-            new BufferedWriter(new OutputStreamWriter(new FileOutputStream(archivo,true),"UTF8"));
-            entrada = new BufferedReader (new InputStreamReader(new FileInputStream(archivo),"utf-8"));
+
+        try {
+            new BufferedWriter(new OutputStreamWriter(new FileOutputStream(archivo, true), "UTF8"));
+            entrada = new BufferedReader(new InputStreamReader(new FileInputStream(archivo), "utf-8"));
             String linea;
-            while((linea = entrada.readLine())!=null){
-                documento += linea +'\n';
-               AreaT[pestañaIndex].setText(documento);
+            while ((linea = entrada.readLine()) != null) {
+                documento += linea + '\n';
+                AreaT[pestañaIndex].setText(documento);
             }
-            parrafo(AreaT[pestañaIndex].getText());
-            
-        }catch (IOException e){
-            
-        }
-        finally{
+
+        } catch (IOException e) {
+
+        } finally {
             entrada.close();
         }
         return documento;
-        
+
     }
-    
-    private void  AreaLugar(CaretEvent e,JTextArea a) throws BadLocationException{
+
+    private void AreaLugar(CaretEvent e, JTextArea a) throws BadLocationException {
         int cLine = 1;
         int cColumn = 1;
-        
-        try{
+
+        try {
             int posicion = a.getCaretPosition();
             cLine = a.getLineOfOffset(posicion);
-            cColumn = posicion-a.getLineStartOffset(cLine);
-            
-        String fila = String.valueOf(cLine+1);
-        String columna = String.valueOf(cColumn+1);
-        
-        lblLinea.setText(fila);
-        lblColumna.setText(columna);
-        
-        }
-        catch (Exception ex){
-            String fila = String.valueOf(cLine+1);
-        String columna = String.valueOf(cColumn+1);
-        lblLinea.setText(fila);
-        lblColumna.setText(columna);
-        
+            cColumn = posicion - a.getLineStartOffset(cLine);
+
+            String fila = String.valueOf(cLine + 1);
+            String columna = String.valueOf(cColumn + 1);
+
+            lblLinea.setText(fila);
+            lblColumna.setText(columna);
+
+        } catch (Exception ex) {
+            String fila = String.valueOf(cLine + 1);
+            String columna = String.valueOf(cColumn + 1);
+            lblLinea.setText(fila);
+            lblColumna.setText(columna);
+
         }
     }
-        public void abrir(){
-        try{
-            
-            
-            if(seleccionar.showDialog (null,"Abrir")==JFileChooser.APPROVE_OPTION){
+
+    public void abrir() {
+        try {
+
+            if (seleccionar.showDialog(null, "Abrir") == JFileChooser.APPROVE_OPTION) {
                 archivo = seleccionar.getSelectedFile();
                 abrirArchivo(archivo);
-               
+
             }
 
-        }catch(HeadlessException r){
-            System.out.println("Error"+r);
+        } catch (HeadlessException r) {
+            System.out.println("Error" + r);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Open.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(Open.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-        public void parrafo (String parrafo){
-       // System.out.println(parrafo);
-//        try {
-//            parser sintactico = new parser(new Lexico(new BufferedReader(new StringReader(parrafo))));
-//            sintactico.parse();
-//        } catch (Exception e) {
-//            Logger.getLogger(Open.class.getName()).log(Level.SEVERE,null,e);
-//        }
-   
-       // imprimirLista();
-    }
+
     public Open() {
-        FileNameExtensionFilter Filter = new FileNameExtensionFilter("Archivo de Entrada","txt");
-       seleccionar.setFileFilter(Filter);
+        FileNameExtensionFilter Filter = new FileNameExtensionFilter("Archivo de Entrada", "txt");
+        seleccionar.setFileFilter(Filter);
 
         initComponents();
-//         txtprincipal.setLineWrap(true); 
-//         linea = this.txtprincipal.getLineCount();
-//        txtprincipal.setWrapStyleWord(true); 
-//     txtprincipal.setSelectedTextColor(Color.GREEN);
-        
-        //TextLineNumber tln = new TextLineNumber(txtprincipal);
-     //   jScrollPane1.setRowHeaderView(tln);
         this.setLocationRelativeTo(null);
     }
-//    public String abrir(File archivo) {
-//        String documento = " ";
-//        try {
-//            entrada = new FileInputStream(archivo);
-//            int num;
-//            while((num = entrada.read())!=-1){
-//                char caracter = (char)num;
-//                documento+= caracter;
-//                
-//            }
-//            
-//        }catch(Exception e){
-//            
-//        }
-//        return documento;
-//        
-//    }
-    
-
-    
-//    public void abrirMetodo (){
-//         // TODO add your handling code here:
-//        if(seleccion.showDialog(null, "Abrir")== JFileChooser.APPROVE_OPTION){
-//            archivo = seleccion.getSelectedFile();
-//            if(archivo.canRead()){
-//                String documento = abrir(archivo);
-//                txtPrincipal.setText(documento);
-//                parrafo(documento);
-//            }else{
-//                
-//            }
-//        } 
-//    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -473,7 +421,7 @@ public class Open extends javax.swing.JFrame {
         numeroReporte = 3;
         generaPDF(numeroReporte);
         generadorPDF g = new generadorPDF();
-        g.generarDocumento("TITULO", "REPORTE DE PUBLICACION", numeroReporte,"C:\\Users\\Jacky Montenegro\\Desktop\\imagen.jpg",true);
+        g.generarDocumento("TITULO", "REPORTE DE PUBLICACION", numeroReporte, "C:\\Users\\Jacky Montenegro\\Desktop\\imagen.jpg", true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -481,7 +429,7 @@ public class Open extends javax.swing.JFrame {
         numeroReporte = 4;
         generaPDF(numeroReporte);
         generadorPDF g = new generadorPDF();
-        g.generarDocumento("TITULO", "REPORTE DE EXCELENCIA", numeroReporte,"C:\\Users\\Jacky Montenegro\\Desktop\\imagen.jpg",true);
+        g.generarDocumento("TITULO", "REPORTE DE EXCELENCIA", numeroReporte, "C:\\Users\\Jacky Montenegro\\Desktop\\imagen.jpg", true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -499,9 +447,9 @@ public class Open extends javax.swing.JFrame {
         numeroReporte = 1;
         generaPDF(numeroReporte);
         generadorPDF g = new generadorPDF();
-        g.generarDocumento("TITULO", "REPORTE DE APROBADOS", numeroReporte,"C:\\Users\\Jacky Montenegro\\Desktop\\imagen.jpg",true);
-        
-        
+        g.generarDocumento("TITULO", "REPORTE DE APROBADOS", numeroReporte, "C:\\Users\\Jacky Montenegro\\Desktop\\imagen.jpg", true);
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -509,56 +457,59 @@ public class Open extends javax.swing.JFrame {
         numeroReporte = 2;
         generaPDF(numeroReporte);
         generadorPDF g = new generadorPDF();
-        g.generarDocumento("TITULO", "REPORTE DE REPROBADOS", numeroReporte,"C:\\Users\\Jacky Montenegro\\Desktop\\imagen.jpg",true);
+        g.generarDocumento("TITULO", "REPORTE DE REPROBADOS", numeroReporte, "C:\\Users\\Jacky Montenegro\\Desktop\\imagen.jpg", true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
-        
+
         txte.setText(" ");
         try {
             String texto = (AreaT[tp1.getSelectedIndex()]).getText();
             Lexico scan = new Lexico(new BufferedReader(new StringReader(texto)));
             parser sintactico = new parser(scan);
             sintactico.parse();
-            
-           // System.out.println(sintactico.dato1);
-            
-           
         } catch (Exception e) {
-            Logger.getLogger(Open.class.getName()).log(Level.SEVERE,null,e);
+            Logger.getLogger(Open.class.getName()).log(Level.SEVERE, null, e);
         }
-        if(lista.size()>0){
+        if (lista.size() > 0) {
             imprimirLista();
-            
+
             lista.clear();
-        }else{
+        } else {
             System.out.println("NO HAY ERRORES");
             txte.setText("NO HAY ERRORES");
         }
-        
-        if(lista2.size()>0){
+
+        if (lista2.size() > 0) {
+            contE = 0;
+            contEs = 0;
+            contP = 0;
+            contR = 0;
+            contC = 0;
+
             imprimirLista2();
-            
+            repetidosTitulos();
+            imprimirLista3();
+         
+          
+          imprimirEncabezado();
+            imprimirCuerpo();
+            imprimirPonderacion();
+            imprimirReporte();
+            imprimirEstilo();
             lista2.clear();
-        }else{
+            lista3.clear();
+            encabezado.clear();;
+            estilo.clear();
+            ponderacion.clear();
+            reporte.clear();
+            cuerpo.clear();
+        } else {
             System.out.println("NO HAY CADENA");
             txte.setText("NO HAY CADENA");
-            
+
         }
-        
-        
-      
-        
-        
-//        pestaña();
-//        
-//        try {
-//            parser sintactico = new parser(new Lexico(new BufferedReader(new StringReader(AreaT[p].getText()))));
-//            sintactico.parse();
-//        } catch (Exception e) {
-//            Logger.getLogger(Open.class.getName()).log(Level.SEVERE,null,e);
-//        }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
 
@@ -595,15 +546,15 @@ public class Open extends javax.swing.JFrame {
         JTextArea AreaT = new JTextArea();
         JScrollPane sc = new JScrollPane();
         sc.setViewportView(AreaT);
-      
+
         TextLineNumber tl = new TextLineNumber(AreaT);
         sc.setRowHeaderView(tl);
-        this.AreaT[p]=AreaT;
-        
-        tp1.addTab(archivo.getName(),sc);
+        this.AreaT[p] = AreaT;
+
+        tp1.addTab(archivo.getName(), sc);
         pestañaIndex = p;
         p++;
-        
+
         AreaT.addCaretListener(new javax.swing.event.CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
@@ -614,12 +565,9 @@ public class Open extends javax.swing.JFrame {
                 }
             }
         });
-        
-//        fin = p;
-//        return fin;
-        
-                }
-    public void generaPDF(int reporte){
+    }
+
+    public void generaPDF(int reporte) {
 //       String ruta = "C:\\Users\\Jacky Montenegro\\Desktop\\Reporte";
 //        String contenido = txtprincipal.getText();
 //        
@@ -638,31 +586,173 @@ public class Open extends javax.swing.JFrame {
 //        } catch (Exception e) {
 //            System.out.println("LAURASAD :'c");
 //        }
-   }
-    public void imprimirLista (){
-        String x= " ";
-        for ( int i = 0; i<lista.size();i++){
-            System.out.println(lista.get(i).getTipo()+lista.get(i).getLexema()+lista.get(i).getLinea()+lista.get(i).getColumna()+lista.get(i).getDescripcion());
-            x=x+lista.get(i).getTipo()+lista.get(i).getLexema()+lista.get(i).getLinea()+lista.get(i).getColumna()+lista.get(i).getDescripcion()+"\n";
+    }
+
+    public void imprimirLista() {
+        String x = " ";
+        for (int i = 0; i < lista.size(); i++) {
+            System.out.println(lista.get(i).getTipo() + lista.get(i).getLexema() + lista.get(i).getLinea() + lista.get(i).getColumna() + lista.get(i).getDescripcion());
+            x = x + lista.get(i).getTipo() + lista.get(i).getLexema() + lista.get(i).getLinea() + lista.get(i).getColumna() + lista.get(i).getDescripcion() + "\n";
             txte.setText(" ");
             txte.setText(x);
         }
     }
-    public void imprimirLista2 (){
-        String x= " ";
-        for ( int i = 0; i<lista2.size();i++){
+
+    public void imprimirLista2() {
+        String x = " ";
+        for (int i = 0; i < lista2.size(); i++) {
             System.out.println(lista2.get(i).getLexema());
-            x=x+lista2.get(i).getLexema()+"\n";
-           // txte.setText(" ");
-          //  txte.setText(x);
         }
     }
-    public void traeEncabezado(String a){
+
+    public void imprimirLista3() {
+        String x = " ";
+        for (int i = 0; i < lista3.size(); i++) {
+            System.out.println(lista3.get(i).getLexema());
+        }
+    }
+    public void imprimirEncabezado() {
+        String x = " ";
+        for (int i = 0; i < encabezado.size(); i++) {
+            System.out.println(encabezado.get(i).getLexema());
+        }
+    }
+    public void imprimirEstilo() {
+        String x = " ";
+        for (int i = 0; i < estilo.size(); i++) {
+            System.out.println(estilo.get(i).getLexema());
+        }
+    }
+    public void imprimirReporte() {
+        String x = " ";
+        for (int i = 0; i < reporte.size(); i++) {
+            System.out.println(reporte.get(i).getLexema());
+        }
+    }
+    public void imprimirPonderacion() {
+        String x = " ";
+        for (int i = 0; i < ponderacion.size(); i++) {
+            System.out.println(ponderacion.get(i).getLexema());
+        }
+    }
+    public void imprimirCuerpo() {
+        String x = " ";
+        for (int i = 0; i < cuerpo.size(); i++) {
+            System.out.println(cuerpo.get(i).getLexema());
+        }
+    }
+
+    public void traeEncabezado(String a) {
         System.out.println(a);
-        
+    }
+
+    public void repetidosTitulos() {
+
+        String x = " ";
+        String y = " ";
+        String z = " ";
+
+        for (int i = 0; i < lista2.size(); i++) {
+
+            char[] se;
+            String h = lista2.get(i).getLexema();
+            se = h.toCharArray();
+            y = Character.toString(se[0]);
+            z = Character.toString(se[1]);
+
+            if (null != y) {
+                switch (y) {
+                    case "e":
+                    case "E":
+                        if ("s".equals(z) || "S".equals(z)) {
+                            if (contEs == 0) {
+                                addEstilo(h);
+                                contEs = contEs + 1;
+                                erroresList list = new erroresList(h);
+                                lista3.add(list);
+
+                            }
+                        } else {
+                            if (contE == 0) {
+                                addEncabezado(h);
+                                erroresList list = new erroresList(h);
+                                lista3.add(list);
+                                contE++;
+                            }
+                        }
+                        break;
+                    case "c":
+                    case "C":
+                        if (contC == 0) {
+                            addCuerpo(h);
+                            erroresList list = new erroresList(h);
+                            lista3.add(list);
+                            contC++;
+                        }
+                        break;
+                    case "r":
+                    case "R":
+                        if (contR == 0) {
+                            addReporte(h);
+                            erroresList list = new erroresList(h);
+                            lista3.add(list);
+                            contR++;
+                        }
+                        break;
+                    case "p":
+                    case "P":
+                        if (contP == 0) {
+                            addPonderacion(h);
+                            erroresList list = new erroresList(h);
+                            lista3.add(list);
+                            contP++;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            x = x + h + "\n";
+            // txte.setText(" ");
+            //  txte.setText(x);
+        }
+    }
+
+    public void addEncabezado(String cadena){
+        String[] arrayDato = cadena.split(":");
+        for(int i = 0; i< arrayDato.length; i++){
+        erroresList list = new erroresList(arrayDato[i]);
+        encabezado.add(list);
+        }
+    }
+    public void addEstilo(String cadena){
+        String[] arrayDato = cadena.split(":");
+for(int i = 0; i< arrayDato.length; i++){
+        erroresList list = new erroresList(arrayDato[i]);
+        estilo.add(list);
+        }
+    }
+    public void addReporte(String cadena){
+        String[] arrayDato = cadena.split(":");
+for(int i = 0; i< arrayDato.length; i++){
+        erroresList list = new erroresList(arrayDato[i]);
+        reporte.add(list);
+        }
+    }
+    public void addPonderacion(String cadena){
+        String[] arrayDato = cadena.split(":");
+for(int i = 0; i< arrayDato.length; i++){
+        erroresList list = new erroresList(arrayDato[i]);
+        ponderacion.add(list);
+        }
+    }
+    public void addCuerpo(String cadena){
+        String[] arrayDato = cadena.split(":");
+for(int i = 0; i< arrayDato.length; i++){
+        erroresList list = new erroresList(arrayDato[i]);
+        cuerpo.add(list);
+        }
     }
 
 }
-
-    
-

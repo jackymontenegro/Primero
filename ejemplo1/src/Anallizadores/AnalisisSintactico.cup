@@ -98,23 +98,23 @@ ETIQUETA::= encabezado:encabe ENCAS:ec bar {:RESULT =encabe.toString()+","+ ec.t
 	|estilo:estil cierra ESTIS:ests abre bar estilo{:RESULT = estil.toString()+","+ests.toString();:};
 		
 ENCAS::= ENCAS:ecn ENCA:o {:
-RESULT = ecn.toString()+o+","; :}
+RESULT = ecn.toString()+o+":"; :}
 	|ENCA:o
 
 	{:
-RESULT = o.toString()+","; :};
+RESULT = o.toString()+":"; :};
 		
 	
 
-CUERS::= CUERS:crs CUER:cr {: RESULT = crs.toString()+cr.toString();:}  
-		|CUER:cr {: RESULT = cr.toString();:}  
+CUERS::= CUERS:crs CUER:cr {: RESULT = crs.toString()+cr.toString()+":";:}  
+		|CUER:cr {: RESULT = cr.toString()+":";:}  
  ;
 		
-PONDS::= PONDS:pds POND:pd {:RESULT = pds.toString()+ pd.toString();:}
-		|POND:pd {:RESULT = pd.toString();:};
+PONDS::= PONDS:pds POND:pd {:RESULT = pds.toString()+ pd.toString()+":";:}
+		|POND:pd {:RESULT = pd.toString()+":";:};
 
-REPORS::= REPORS:reps REPOR:rep{: RESULT= reps.toString()+rep.toString()+",";:}
-		|REPOR:rep{: RESULT= rep.toString()+",";:};
+REPORS::= REPORS:reps REPOR:rep{: RESULT= reps.toString()+rep.toString()+":";:}
+		|REPOR:rep{: RESULT= rep.toString()+":";:};
 		
 ESTIS::= ESTIS:ests ESTI:est{: RESULT=ests.toString()+est.toString();:}
 		|ESTI:est{: RESULT=est.toString();:};
@@ -170,10 +170,10 @@ BOL::= verdadero:jacky {:RESULT = jacky;:}
 ESTI::= SENCA:no SCUERPO:scu{: RESULT=no.toString()+scu.toString();:};
 
 SENCA::= abre encabezado SSENCA:ee bar cierra
-{: RESULT= ee.toString();:};
+{: RESULT= ee.toString()+":";:};
 
 SCUERPO::= abre cuerpo SSCUERPO:sscu bar cierra
-{: RESULT=sscu;:};
+{: RESULT=sscu.toString()+":";:};
 
 SSENCA::= SSENCA:ee coma EN:e{: RESULT = ee.toString()+e.toString()+",";:}
 		|EN:e{: RESULT= e+",";:};
