@@ -98,23 +98,23 @@ ETIQUETA::= encabezado:encabe ENCAS:ec bar {:RESULT =encabe.toString()+","+ ec.t
 	|estilo:estil cierra ESTIS:ests abre bar estilo{:RESULT = estil.toString()+","+ests.toString();:};
 		
 ENCAS::= ENCAS:ecn ENCA:o {:
-RESULT = ecn.toString()+o+":"; :}
+RESULT = ecn.toString()+o+"¡"; :}
 	|ENCA:o
 
 	{:
-RESULT = o.toString()+":"; :};
+RESULT = o.toString()+"¡"; :};
 		
 	
 
-CUERS::= CUERS:crs CUER:cr {: RESULT = crs.toString()+cr.toString()+":";:}  
-		|CUER:cr {: RESULT = cr.toString()+":";:}  
+CUERS::= CUERS:crs CUER:cr {: RESULT = crs.toString()+cr.toString()+"¡";:}  
+		|CUER:cr {: RESULT = cr.toString()+"¡";:}  
  ;
 		
-PONDS::= PONDS:pds POND:pd {:RESULT = pds.toString()+ pd.toString()+":";:}
-		|POND:pd {:RESULT = pd.toString()+":";:};
+PONDS::= PONDS:pds POND:pd {:RESULT = pds.toString()+ pd.toString()+"¡";:}
+		|POND:pd {:RESULT = pd.toString()+"¡";:};
 
-REPORS::= REPORS:reps REPOR:rep{: RESULT= reps.toString()+rep.toString()+":";:}
-		|REPOR:rep{: RESULT= rep.toString()+":";:};
+REPORS::= REPORS:reps REPOR:rep{: RESULT= reps.toString()+rep.toString()+"¡";:}
+		|REPOR:rep{: RESULT= rep.toString()+"¡";:};
 		
 ESTIS::= ESTIS:ests ESTI:est{: RESULT=ests.toString()+est.toString();:}
 		|ESTI:est{: RESULT=est.toString();:};
@@ -140,8 +140,8 @@ TIPOCADENA::= cadena:b {:RESULT = b;:}
 CUER::= abre estudiante ESTUS:ests bar cierra 
 {: RESULT = ests.toString();:};
 
-ESTUS::= ESTUS:ests coma ESTU:est {: RESULT = ests.toString()+est.toString()+ ",";:}
-        |ESTU:est {: RESULT = est.toString()+ ",";:}; 
+ESTUS::= ESTUS:ests coma ESTU:est {: RESULT = ests.toString()+est.toString()+ "!";:}
+        |ESTU:est {: RESULT = est.toString()+ "!";:};
 
 ESTU::= id:dat1 igual TIPOCADENA:b
 {: RESULT = dat1.toString()+ "," +b.toString();:}
@@ -170,13 +170,13 @@ BOL::= verdadero:jacky {:RESULT = jacky;:}
 ESTI::= SENCA:no SCUERPO:scu{: RESULT=no.toString()+scu.toString();:};
 
 SENCA::= abre encabezado SSENCA:ee bar cierra
-{: RESULT= ee.toString()+":";:};
+{: RESULT= ee.toString()+"¡";:};
 
 SCUERPO::= abre cuerpo SSCUERPO:sscu bar cierra
-{: RESULT=sscu.toString()+":";:};
+{: RESULT=sscu.toString()+"¡";:};
 
-SSENCA::= SSENCA:ee coma EN:e{: RESULT = ee.toString()+e.toString()+",";:}
-		|EN:e{: RESULT= e+",";:};
+SSENCA::= SSENCA:ee coma EN:e{: RESULT = ee.toString()+e.toString()+"!";:}
+		|EN:e{: RESULT= e+"!";:};
 	
 EN::= COLE:tt igual cadena:cad
 {: RESULT = tt.toString() +","+ cad.toString();:};
@@ -185,8 +185,8 @@ COLE::= ct:tt {:RESULT = tt;:}
 		|cv:tt {:RESULT = tt;:}
 		|logo:tt {:RESULT = tt;:};
 		
-SSCUERPO::= SSCUERPO:sscu coma CU:cu{: RESULT= sscu.toString()+cu.toString()+",";:} 
-		|CU:cu{: RESULT= cu+",";:};
+SSCUERPO::= SSCUERPO:sscu coma CU:cu{: RESULT= sscu.toString()+cu.toString()+"!";:} 
+		|CU:cu{: RESULT= cu+"!";:};
 		
 CU::= COLC:yy igual TIPOES:xx
 {: RESULT = yy.toString() +","+ xx.toString();:};

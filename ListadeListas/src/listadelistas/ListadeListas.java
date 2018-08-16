@@ -3,26 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ejemplo1;
-import Anallizadores.*;
+package listadelistas;
+
+import java.awt.List;
+import java.util.ArrayList;
 
 /**
  *
  * @author Jacky Montenegro
  */
-public class Ejemplo1 {
+public class ListadeListas {
+    
+    
 
     /**
      * @param args the command line arguments
      */
-    
     public static void main(String[] args) {
         // TODO code application logic here
-	Open ventana = new Open();
-       ventana.setVisible(true);
-       
-     // Generadores.generarCompilador();
-       
+        ArrayList<ArrayList<String>> lista1 = new ArrayList<ArrayList<String>>();
+        
+        //lista1.add(new ArrayList<String>(){"hola"});
+        
     }
     
 }

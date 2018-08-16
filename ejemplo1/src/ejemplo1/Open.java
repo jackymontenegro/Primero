@@ -35,7 +35,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 import Anallizadores.*;
 import Listas.erroresList;
+import com.itextpdf.text.DocumentException;
 import com.sun.imageio.plugins.jpeg.JPEG;
+import java.awt.Desktop;
 import java.io.StringReader;
 import java.util.HashSet;
 import java_cup.runtime.*;
@@ -55,6 +57,10 @@ public class Open extends javax.swing.JFrame {
     public static ArrayList<erroresList> estilo = new ArrayList();
     public static ArrayList<erroresList> reporte = new ArrayList();
     public static ArrayList<erroresList> ponderacion = new ArrayList();
+    public static ArrayList<erroresList> cuerpoAtt = new ArrayList();
+    public static ArrayList<erroresList> estiloAtt = new ArrayList();
+
+    generadorPDF genera = new generadorPDF();
 
     JFileChooser seleccionar = new JFileChooser();
     File archivo;
@@ -80,6 +86,10 @@ public class Open extends javax.swing.JFrame {
     int contC;
     int contP;
     int contR;
+
+    public int contadorDeReportes = 0;
+
+    String R = " ";
 
     /**
      * Creates new form Open
@@ -152,12 +162,19 @@ public class Open extends javax.swing.JFrame {
     }
 
     public Open() {
+
         FileNameExtensionFilter Filter = new FileNameExtensionFilter("Archivo de Entrada", "txt");
         seleccionar.setFileFilter(Filter);
 
         initComponents();
         this.setLocationRelativeTo(null);
+
+        jButton1.setVisible(false);
+        jButton2.setVisible(false);
+        jButton3.setVisible(false);
+        jButton4.setVisible(false);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -287,7 +304,7 @@ public class Open extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(jLabel9))
-                .addContainerGap(174, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel3.setText("Consola de Errores");
@@ -366,9 +383,9 @@ public class Open extends javax.swing.JFrame {
                                 .addGap(485, 485, 485)
                                 .addComponent(jLabel2))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(tp1, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tp1, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(28, 28, 28))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -390,17 +407,14 @@ public class Open extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(tp1, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tp1, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -419,17 +433,13 @@ public class Open extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         numeroReporte = 3;
-        generaPDF(numeroReporte);
-        generadorPDF g = new generadorPDF();
-        g.generarDocumento("TITULO", "REPORTE DE PUBLICACION", numeroReporte, "C:\\Users\\Jacky Montenegro\\Desktop\\imagen.jpg", true);
+        escogeReporte(numeroReporte);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         numeroReporte = 4;
-        generaPDF(numeroReporte);
-        generadorPDF g = new generadorPDF();
-        g.generarDocumento("TITULO", "REPORTE DE EXCELENCIA", numeroReporte, "C:\\Users\\Jacky Montenegro\\Desktop\\imagen.jpg", true);
+        escogeReporte(numeroReporte);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -445,21 +455,16 @@ public class Open extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         numeroReporte = 1;
-        generaPDF(numeroReporte);
-        generadorPDF g = new generadorPDF();
-        g.generarDocumento("TITULO", "REPORTE DE APROBADOS", numeroReporte, "C:\\Users\\Jacky Montenegro\\Desktop\\imagen.jpg", true);
-
-
+        escogeReporte(numeroReporte);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         numeroReporte = 2;
-        generaPDF(numeroReporte);
-        generadorPDF g = new generadorPDF();
-        g.generarDocumento("TITULO", "REPORTE DE REPROBADOS", numeroReporte, "C:\\Users\\Jacky Montenegro\\Desktop\\imagen.jpg", true);
+        escogeReporte(numeroReporte);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    @SuppressWarnings("empty-statement")
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
 
@@ -488,16 +493,27 @@ public class Open extends javax.swing.JFrame {
             contR = 0;
             contC = 0;
 
-            imprimirLista2();
+            // imprimirLista2();
             repetidosTitulos();
             imprimirLista3();
-         
-          
-          imprimirEncabezado();
+
+            System.out.println("ENCABEZADO*********************************************************");
+            imprimirEncabezado();
+            System.out.println("CUERPO*********************************************************");
             imprimirCuerpo();
+
+            //imprimirReporte();
+            //imprimirEstilo();
+            //imprimirCuerpoA();
+            System.out.println("ESTILO*********************************************************");
+            imprimirEstiloA();
+
+            System.out.println("PONDERACION*********************************************************");
             imprimirPonderacion();
-            imprimirReporte();
-            imprimirEstilo();
+            genera.creaPDF();
+
+            estiloAtt.clear();
+            cuerpoAtt.clear();
             lista2.clear();
             lista3.clear();
             encabezado.clear();;
@@ -510,14 +526,23 @@ public class Open extends javax.swing.JFrame {
             txte.setText("NO HAY CADENA");
 
         }
+
+        jButton1.setVisible(true);
+        jButton2.setVisible(true);
+        jButton3.setVisible(true);
+        jButton4.setVisible(true);
+
+        contadorDeReportes++;
+
+
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    public javax.swing.JButton jButton1;
+    public javax.swing.JButton jButton2;
+    public javax.swing.JButton jButton3;
+    public javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -541,6 +566,71 @@ public class Open extends javax.swing.JFrame {
     private javax.swing.JTabbedPane tp1;
     private javax.swing.JTextArea txte;
     // End of variables declaration//GEN-END:variables
+
+    public void escogeReporte(int numR) {
+
+        switch (numR) {
+            case 1: {
+
+                File ru = new File("C:\\Users\\Jacky Montenegro\\Desktop\\reporteAprobados" + (contadorDeReportes - 1) + ".pdf");
+                if (!ru.exists()) {
+                    System.out.println("NO EXISTE RUTA");
+                    JOptionPane.showMessageDialog(null, "EL REPORTE NO FUE CREADO");
+                } else {
+                    try {
+                        Desktop.getDesktop().open(ru);
+                    } catch (IOException ex) {
+                        Logger.getLogger(Open.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                break;
+            }
+            case 2: {
+                File ru = new File("C:\\Users\\Jacky Montenegro\\Desktop\\reporteReprobados" + (contadorDeReportes - 1) + ".pdf");
+                if (!ru.exists()) {
+                    System.out.println("NO EXISTE RUTA");
+                    JOptionPane.showMessageDialog(null, "EL REPORTE NO FUE CREADO");
+                } else {
+                    try {
+                        Desktop.getDesktop().open(ru);
+                    } catch (IOException ex) {
+                        Logger.getLogger(Open.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                break;
+            }
+            case 3: {
+                File ru = new File("C:\\Users\\Jacky Montenegro\\Desktop\\reportePublicados" + (contadorDeReportes - 1) + ".pdf");
+                if (!ru.exists()) {
+                    System.out.println("NO EXISTE RUTA");
+                    JOptionPane.showMessageDialog(null, "EL REPORTE NO FUE CREADO");
+                } else {
+                    try {
+                        Desktop.getDesktop().open(ru);
+                    } catch (IOException ex) {
+                        Logger.getLogger(Open.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                break;
+            }
+            case 4: {
+                File ru = new File("C:\\Users\\Jacky Montenegro\\Desktop\\reporteExcelencia" + (contadorDeReportes - 1) + ".pdf");
+                if (!ru.exists()) {
+                    System.out.println("NO EXISTE RUTA");
+                    JOptionPane.showMessageDialog(null, "EL REPORTE NO FUE CREADO");
+                } else {
+                    try {
+                        Desktop.getDesktop().open(ru);
+                    } catch (IOException ex) {
+                        Logger.getLogger(Open.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                break;
+            }
+            default:
+                break;
+        }
+    }
 
     private void pestaña() {
         JTextArea AreaT = new JTextArea();
@@ -567,27 +657,6 @@ public class Open extends javax.swing.JFrame {
         });
     }
 
-    public void generaPDF(int reporte) {
-//       String ruta = "C:\\Users\\Jacky Montenegro\\Desktop\\Reporte";
-//        String contenido = txtprincipal.getText();
-//        
-//        String num = String.valueOf(reporte);
-//        
-//        try {
-//            FileOutputStream archivo = new FileOutputStream(ruta+num+".pdf");
-//            Document documento = new Document();
-//            PdfWriter.getInstance(documento,archivo);
-//            documento.open();
-//            documento.add(new Paragraph(contenido));
-//            documento.close();
-//            
-//            JOptionPane.showMessageDialog(null, "Correcto");
-//            
-//        } catch (Exception e) {
-//            System.out.println("LAURASAD :'c");
-//        }
-    }
-
     public void imprimirLista() {
         String x = " ";
         for (int i = 0; i < lista.size(); i++) {
@@ -611,30 +680,35 @@ public class Open extends javax.swing.JFrame {
             System.out.println(lista3.get(i).getLexema());
         }
     }
+
     public void imprimirEncabezado() {
         String x = " ";
         for (int i = 0; i < encabezado.size(); i++) {
             System.out.println(encabezado.get(i).getLexema());
         }
     }
+
     public void imprimirEstilo() {
         String x = " ";
         for (int i = 0; i < estilo.size(); i++) {
             System.out.println(estilo.get(i).getLexema());
         }
     }
+
     public void imprimirReporte() {
         String x = " ";
         for (int i = 0; i < reporte.size(); i++) {
             System.out.println(reporte.get(i).getLexema());
         }
     }
+
     public void imprimirPonderacion() {
         String x = " ";
         for (int i = 0; i < ponderacion.size(); i++) {
             System.out.println(ponderacion.get(i).getLexema());
         }
     }
+
     public void imprimirCuerpo() {
         String x = " ";
         for (int i = 0; i < cuerpo.size(); i++) {
@@ -642,8 +716,42 @@ public class Open extends javax.swing.JFrame {
         }
     }
 
+    public void imprimirCuerpoA() {
+        String x = " ";
+        for (int i = 0; i < cuerpoAtt.size(); i++) {
+            System.out.println(cuerpoAtt.get(i).getLexema());
+        }
+    }
+
+    public void imprimirEstiloA() {
+        String x = " ";
+        for (int i = 0; i < estiloAtt.size(); i++) {
+            System.out.println(estiloAtt.get(i).getLexema());
+        }
+    }
+
     public void traeEncabezado(String a) {
-        System.out.println(a);
+
+    }
+
+    public void traeEstiloE(String a) {
+
+    }
+
+    public void traeEstiloC(String a) {
+
+    }
+
+    public void traeCuerpo(String a) {
+
+    }
+
+    public void traePonderacion(String a) {
+
+    }
+
+    public void traeReporte(String a) {
+
     }
 
     public void repetidosTitulos() {
@@ -719,40 +827,66 @@ public class Open extends javax.swing.JFrame {
         }
     }
 
-    public void addEncabezado(String cadena){
-        String[] arrayDato = cadena.split(":");
-        for(int i = 0; i< arrayDato.length; i++){
-        erroresList list = new erroresList(arrayDato[i]);
-        encabezado.add(list);
-        }
-    }
-    public void addEstilo(String cadena){
-        String[] arrayDato = cadena.split(":");
-for(int i = 0; i< arrayDato.length; i++){
-        erroresList list = new erroresList(arrayDato[i]);
-        estilo.add(list);
-        }
-    }
-    public void addReporte(String cadena){
-        String[] arrayDato = cadena.split(":");
-for(int i = 0; i< arrayDato.length; i++){
-        erroresList list = new erroresList(arrayDato[i]);
-        reporte.add(list);
-        }
-    }
-    public void addPonderacion(String cadena){
-        String[] arrayDato = cadena.split(":");
-for(int i = 0; i< arrayDato.length; i++){
-        erroresList list = new erroresList(arrayDato[i]);
-        ponderacion.add(list);
-        }
-    }
-    public void addCuerpo(String cadena){
-        String[] arrayDato = cadena.split(":");
-for(int i = 0; i< arrayDato.length; i++){
-        erroresList list = new erroresList(arrayDato[i]);
-        cuerpo.add(list);
+    public void addEncabezado(String cadena) {
+        String[] arrayDato = cadena.split("¡");
+        for (int i = 0; i < arrayDato.length; i++) {
+            erroresList list = new erroresList(arrayDato[i]);
+            encabezado.add(list);
+            traeEncabezado(arrayDato[i]);
         }
     }
 
+    public void addEstilo(String cadena) {
+        String[] arrayDato = cadena.split("¡");
+        for (int i = 0; i < arrayDato.length; i++) {
+            erroresList list = new erroresList(arrayDato[i]);
+            estilo.add(list);
+            addEstiloAtt(arrayDato[i]);
+        }
+    }
+
+    public void addReporte(String cadena) {
+        String[] arrayDato = cadena.split("¡");
+        for (int i = 0; i < arrayDato.length; i++) {
+            erroresList list = new erroresList(arrayDato[i]);
+            reporte.add(list);
+            traeReporte(arrayDato[i]);
+        }
+    }
+
+    public void addPonderacion(String cadena) {
+        String[] arrayDato = cadena.split("¡");
+        for (int i = 0; i < arrayDato.length; i++) {
+            erroresList list = new erroresList(arrayDato[i]);
+            ponderacion.add(list);
+            traePonderacion(arrayDato[i]);
+        }
+    }
+
+    public void addCuerpo(String cadena) {
+        String[] arrayDato = cadena.split("¡");
+        for (int i = 0; i < arrayDato.length; i++) {
+            erroresList list = new erroresList(arrayDato[i]);
+            cuerpo.add(list);
+            addCuerpoAtt(arrayDato[i]);
+        }
+    }
+
+    public void addCuerpoAtt(String cadena) {
+        String[] arrayDato = cadena.split("!");
+        for (int i = 0; i < arrayDato.length; i++) {
+            erroresList list = new erroresList(arrayDato[i]);
+            cuerpoAtt.add(list);
+
+        }
+    }
+
+    public void addEstiloAtt(String cadena) {
+        String[] arrayDato = cadena.split("!");
+        for (int i = 0; i < arrayDato.length; i++) {
+            erroresList list = new erroresList(arrayDato[i]);
+            estiloAtt.add(list);
+
+        }
+    }
 }

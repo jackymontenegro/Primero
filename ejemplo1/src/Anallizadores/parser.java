@@ -484,7 +484,7 @@ System.out.println(cadena);
 		int oright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object o = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
-RESULT = ecn.toString()+o+":"; 
+RESULT = ecn.toString()+o+"¡"; 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("ENCAS",5, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -497,7 +497,7 @@ RESULT = ecn.toString()+o+":";
 		int oright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object o = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
-RESULT = o.toString()+":"; 
+RESULT = o.toString()+"¡"; 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("ENCAS",5, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -512,7 +512,7 @@ RESULT = o.toString()+":";
 		int crleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int crright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object cr = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = crs.toString()+cr.toString()+":";
+		 RESULT = crs.toString()+cr.toString()+"¡";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("CUERS",7, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -524,7 +524,7 @@ RESULT = o.toString()+":";
 		int crleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int crright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object cr = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = cr.toString()+":";
+		 RESULT = cr.toString()+"¡";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("CUERS",7, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -539,7 +539,7 @@ RESULT = o.toString()+":";
 		int pdleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int pdright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object pd = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		RESULT = pds.toString()+ pd.toString()+":";
+		RESULT = pds.toString()+ pd.toString()+"¡";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("PONDS",9, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -551,7 +551,7 @@ RESULT = o.toString()+":";
 		int pdleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int pdright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object pd = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		RESULT = pd.toString()+":";
+		RESULT = pd.toString()+"¡";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("PONDS",9, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -566,7 +566,7 @@ RESULT = o.toString()+":";
 		int repleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int repright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object rep = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT= reps.toString()+rep.toString()+":";
+		 RESULT= reps.toString()+rep.toString()+"¡";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("REPORS",11, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -578,7 +578,7 @@ RESULT = o.toString()+":";
 		int repleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int repright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object rep = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT= rep.toString()+":";
+		 RESULT= rep.toString()+"¡";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("REPORS",11, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -749,7 +749,7 @@ RESULT= pos.toString()+","+a.toString()+","+b.toString();
 		int estleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int estright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object est = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = ests.toString()+est.toString()+ ",";
+		 RESULT = ests.toString()+est.toString()+ "!";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("ESTUS",17, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -761,7 +761,7 @@ RESULT= pos.toString()+","+a.toString()+","+b.toString();
 		int estleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int estright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object est = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = est.toString()+ ",";
+		 RESULT = est.toString()+ "!";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("ESTUS",17, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -947,7 +947,7 @@ RESULT= pos.toString()+","+a.toString()+","+b.toString();
 		int eeleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
 		int eeright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
 		Object ee = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
-		 RESULT= ee.toString()+":";
+		 RESULT= ee.toString()+"¡";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("SENCA",23, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -959,7 +959,7 @@ RESULT= pos.toString()+","+a.toString()+","+b.toString();
 		int ssculeft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
 		int sscuright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
 		Object sscu = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
-		 RESULT=sscu.toString()+":";
+		 RESULT=sscu.toString()+"¡";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("SCUERPO",24, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -974,7 +974,7 @@ RESULT= pos.toString()+","+a.toString()+","+b.toString();
 		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = ee.toString()+e.toString()+",";
+		 RESULT = ee.toString()+e.toString()+"!";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("SSENCA",25, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -986,7 +986,7 @@ RESULT= pos.toString()+","+a.toString()+","+b.toString();
 		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT= e+",";
+		 RESULT= e+"!";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("SSENCA",25, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1052,7 +1052,7 @@ RESULT= pos.toString()+","+a.toString()+","+b.toString();
 		int culeft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int curight = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object cu = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT= sscu.toString()+cu.toString()+",";
+		 RESULT= sscu.toString()+cu.toString()+"!";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("SSCUERPO",26, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1064,7 +1064,7 @@ RESULT= pos.toString()+","+a.toString()+","+b.toString();
 		int culeft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int curight = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object cu = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT= cu+",";
+		 RESULT= cu+"!";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("SSCUERPO",26, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
