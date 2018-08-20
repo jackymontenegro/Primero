@@ -59,6 +59,8 @@ public class Open extends javax.swing.JFrame {
     public static ArrayList<erroresList> ponderacion = new ArrayList();
     public static ArrayList<erroresList> cuerpoAtt = new ArrayList();
     public static ArrayList<erroresList> estiloAtt = new ArrayList();
+    
+   
 
     generadorPDF genera = new generadorPDF();
 
@@ -164,7 +166,9 @@ public class Open extends javax.swing.JFrame {
     public Open() {
 
         FileNameExtensionFilter Filter = new FileNameExtensionFilter("Archivo de Entrada", "txt");
+        FileNameExtensionFilter Filter1 = new FileNameExtensionFilter("Archivo de Entrada", "xml");
         seleccionar.setFileFilter(Filter);
+        seleccionar.setFileFilter(Filter1);
 
         initComponents();
         this.setLocationRelativeTo(null);
@@ -444,7 +448,9 @@ public class Open extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+        pestañaIndex = tp1.getSelectedIndex();
+        tp1.remove(pestañaIndex);
+        
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -477,6 +483,8 @@ public class Open extends javax.swing.JFrame {
         } catch (Exception e) {
             Logger.getLogger(Open.class.getName()).log(Level.SEVERE, null, e);
         }
+        
+        
         if (lista.size() > 0) {
             imprimirLista();
 
@@ -510,6 +518,11 @@ public class Open extends javax.swing.JFrame {
 
             System.out.println("PONDERACION*********************************************************");
             imprimirPonderacion();
+            
+            System.out.println("CUERPOAAAAAAAAAAAAAAAAAAAAA*********************************************************");
+            imprimirCuerpoA();
+            
+            
             genera.creaPDF();
 
             estiloAtt.clear();
@@ -523,7 +536,7 @@ public class Open extends javax.swing.JFrame {
             cuerpo.clear();
         } else {
             System.out.println("NO HAY CADENA");
-            txte.setText("NO HAY CADENA");
+           // txte.setText("NO HAY CADENA");
 
         }
 
@@ -600,7 +613,7 @@ public class Open extends javax.swing.JFrame {
                 break;
             }
             case 3: {
-                File ru = new File("C:\\Users\\Jacky Montenegro\\Desktop\\reportePublicados" + (contadorDeReportes - 1) + ".pdf");
+                File ru = new File("C:\\Users\\Jacky Montenegro\\Desktop\\reportePublicacion" + (contadorDeReportes - 1) + ".pdf");
                 if (!ru.exists()) {
                     System.out.println("NO EXISTE RUTA");
                     JOptionPane.showMessageDialog(null, "EL REPORTE NO FUE CREADO");
@@ -817,6 +830,8 @@ public class Open extends javax.swing.JFrame {
                         }
                         break;
                     default:
+                        erroresList listas = new erroresList("SINTACTICO", h, "li", "h","NO ESTA DENTRO DE LOS PERMITIDOS");
+                        lista.add(listas);
                         break;
                 }
             }
