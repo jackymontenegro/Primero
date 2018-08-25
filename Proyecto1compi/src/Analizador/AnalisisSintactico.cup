@@ -1,0 +1,181 @@
+
+package Analizador;
+
+import java_cup.runtime.*;
+import proyecto1compi.*;
+import Listas.*;
+
+parser code
+{:
+
+    /*public String cadena=" ";
+     
+    public void enviarLista(String dato){
+        String[] arrayDato = dato.split(";");
+
+        for(int i = 0; i< arrayDato.length; i++){
+        erroresList list = new erroresList(arrayDato[i]);
+        Open.lista2.add(list);
+        }
+
+    	
+    }*/
+
+    /**Metodo al que se llama automáticamente ante algún error sintactico.*/
+    public void syntax_error(Symbol s){
+        System.err.println("Error en la Línea " + (s.right+1) +" Columna "+(s.left+1)+ ". Identificador "
+        +s.value + " no reconocido." );
+erroresList error =new erroresList("ERROR SINTACTICO: ",". Identificador "
+        +s.value + " no reconocido.","FILA:  "+(s.right+1),"COLUMNA:  "+(s.left+1),"SE ESPERABA OTRA PALABRA");
+        ventanaPrincipal.errorSin.add(error);
+        
+    }
+
+    /**Metodo al que se llama en el momento en que ya no es posible una recuperación de
+    errores.*/
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
+        System.err.println("Error en la Línea " + (s.right+1)+ "Columna "+(s.left+1)+". Identificador " +
+        s.value + " no reconocido.");
+
+erroresList error =new erroresList("ERROR SINTACTICO: ",". Identificador "
+        +s.value + " no reconocido.","FILA:  "+(s.right+1),"COLUMNA:  "+(s.left+1),"SE ESPERABA OTRA PALABRA");
+        ventanaPrincipal.errorSin.add(error);
+        
+    
+    }
+
+    /*public Nodo getRaiz(){
+        return action_obj.raiz;
+    }*/
+:}
+
+
+action code {:
+    //Nodo raiz=null;
+    
+:}
+
+/*terminales reservados*/
+terminal String req, iniciou,crearu;
+terminal String tienda,producto,verdadero,falso;
+terminal String get,dolar,menos,igual,coma,valorNumerico,cadena,iden;  
+terminal String query,extraer,de,donde,rq,ptn,n,usuario,pyc,pabre,pcierra,llabre,llcierra,barra,mas,multiplica;
+terminal String and,or,corr;
+
+
+/*
+* Este terminal tiene un valor string. Recuerda que le dábamos el valor
+* en el código del analizador léxico, al darle como parámetro un valor
+* string al objeto Symbolo.
+*/
+
+
+/*
+* Aquí están los no terminales
+*/
+non terminal INICIO,REQ,QUES,QUE,REQS,REQINS,USUARIOC,USUARIOI,TIENS,PROCS,GTS,GT,VAL1,VAL6;
+non terminal VAL2,USUARIOIS,USUARIOCS,PRODUSS,PRODUS,PRODUS1,PRODUSS1,VAL3,VAL3S,VAL4,VAL4S,TIEO,TIENSS,VAL5,TIENS1,TIENSS1,TIEOTR;
+non terminal RQSS,OP,OPS, T,M,ES;
+
+
+/* ­­­­­­­­­­­­­­ Declaración de la gramática  ­­­­­­­­­­­ */
+start with INICIO; // start with sirve para indicarle al parser con que produccion empezar
+
+
+INICIO::= REQS
+		|QUES;
+		
+REQS::= REQS REQ
+		|REQ;
+		
+REQ::= dolar req dolar RQSS dolar req menos dolar;
+
+
+QUES::= QUES QUE
+		|QUE;
+		
+QUE::= query;
+
+RQSS ::= RQSS REQINS
+        |REQINS;
+
+REQINS::= dolar iniciou dolar USUARIOIS dolar iniciou menos dolar
+		| dolar crearu dolar USUARIOCS dolar crearu menos dolar
+                | dolar producto iden igual VAL5 coma PRODUSS  menos dolar 
+		| dolar producto iden igual cadena dolar PRODUSS1 dolar producto menos dolar 
+                | dolar tienda iden igual VAL5 coma TIENSS  menos dolar 
+		| dolar tienda iden igual cadena dolar TIENSS1 dolar tienda menos dolar 
+		| dolar get GTS menos dolar;
+
+TIEOTR::= TIEOTR TIEO
+        |TIEO;
+
+GTS::= GTS GT
+        |GT;
+
+GT::= iden igual VAL5; 
+
+TIEO::= dolar tienda iden igual VAL5 coma TIENSS  menos dolar;
+
+TIENSS::= TIENSS coma TIENS
+		|TIENS;
+
+TIENSS1::= TIENSS1 TIENS1
+		|TIENS1;
+
+PRODUSS::= PRODUSS coma PRODUS
+		|PRODUS;
+
+PRODUSS1::= PRODUSS1 PRODUS1
+		|PRODUS1;
+
+USUARIOIS::= USUARIOIS USUARIOI
+			|USUARIOI;
+
+USUARIOI::= dolar iden dolar VAL1 dolar iden menos dolar;
+
+VAL1::= valorNumerico
+			
+                |iden;
+				
+USUARIOCS::= USUARIOCS USUARIOC
+			|USUARIOC;
+
+USUARIOC::= dolar iden dolar VAL2 dolar iden menos dolar;
+
+VAL2::= valorNumerico
+				|cadena
+				|corr
+                               |iden;
+TIENS::= iden igual VAL5;
+
+VAL5::= cadena
+	|valorNumerico;
+
+TIENS1::= dolar iden dolar VAL5 dolar iden menos dolar;
+
+PRODUS1::= dolar iden dolar VAL6 dolar iden menos dolar;
+
+PRODUS::= iden igual VAL6;
+
+VAL6::= cadena
+        |valorNumerico
+        |OP;
+
+OP::= llabre OPS llcierra;
+
+OPS::= OPS mas T
+		|OPS menos T 
+		|T;
+	
+T::= T multiplica M 
+	|T barra M 
+	|M;
+	
+M::= rq pabre OPS pcierra
+	|ptn pabre OPS pcierra
+	|ES;
+	
+ES::= pabre OPS pcierra
+	|valorNumerico;
+
