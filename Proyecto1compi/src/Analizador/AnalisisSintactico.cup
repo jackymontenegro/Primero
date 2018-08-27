@@ -8,6 +8,8 @@ import Listas.*;
 parser code
 {:
 
+
+ public String operacion = " ";
     /*public String cadena=" ";
      
     public void enviarLista(String dato){
@@ -73,9 +75,13 @@ terminal String and,or,corr;
 /*
 * Aquí están los no terminales
 */
-non terminal INICIO,REQ,QUES,QUE,REQS,REQINS,USUARIOC,USUARIOI,TIENS,PROCS,GTS,GT,VAL1,VAL6;
-non terminal VAL2,USUARIOIS,USUARIOCS,PRODUSS,PRODUS,PRODUS1,PRODUSS1,VAL3,VAL3S,VAL4,VAL4S,TIEO,TIENSS,VAL5,TIENS1,TIENSS1,TIEOTR;
-non terminal RQSS,OP,OPS, T,M,ES;
+non terminal INICIO,REQ,QUES,QUE,REQS,REQINS,USUARIOC,USUARIOI,TIENS,GTS,GT,VAL1,VAL6;
+non terminal VAL2,USUARIOIS,USUARIOCS,PRODUSS,PRODUS,PRODUS1,PRODUSS1,VAL3,VAL4,VAL4S,TIENSS,VAL5,TIENS1,TIENSS1;
+non terminal RQSS,OP,OPS, T,M,ES,OPSS,TIENS2,TIENSS2,CQUERY;
+
+precedence left mas, menos;
+precedence left barra,multiplica;
+
 
 
 /* ­­­­­­­­­­­­­­ Declaración de la gramática  ­­­­­­­­­­­ */
@@ -94,34 +100,52 @@ REQ::= dolar req dolar RQSS dolar req menos dolar;
 QUES::= QUES QUE
 		|QUE;
 		
-QUE::= query;
+QUE::= dolar query dolar CQUERY dolar query menos dolar;
+
+CQUERY ::= extraer de M ES;
+
+M::= usuario
+    |producto
+    |tienda;
+
+ES::= pyc 
+    |donde VAL4S pyc;
+    
+
+VAL4S::= VAL4S VAL3 VAL4 
+    |VAL4; 
+
+VAL3::= or 
+        |and;
+
+VAL4::= iden igual igual VAL6 
+    |n pabre iden igual igual VAL6 pcierra;
 
 RQSS ::= RQSS REQINS
         |REQINS;
 
 REQINS::= dolar iniciou dolar USUARIOIS dolar iniciou menos dolar
 		| dolar crearu dolar USUARIOCS dolar crearu menos dolar
-                | dolar producto iden igual VAL5 coma PRODUSS  menos dolar 
+                | dolar producto iden igual VAL5 coma  PRODUSS  menos dolar 
 		| dolar producto iden igual cadena dolar PRODUSS1 dolar producto menos dolar 
                 | dolar tienda iden igual VAL5 coma TIENSS  menos dolar 
 		| dolar tienda iden igual cadena dolar TIENSS1 dolar tienda menos dolar 
+                | dolar tienda iden igual valorNumerico dolar TIENSS2 dolar tienda menos dolar 
 		| dolar get GTS menos dolar;
-
-TIEOTR::= TIEOTR TIEO
-        |TIEO;
 
 GTS::= GTS GT
         |GT;
 
 GT::= iden igual VAL5; 
 
-TIEO::= dolar tienda iden igual VAL5 coma TIENSS  menos dolar;
-
 TIENSS::= TIENSS coma TIENS
 		|TIENS;
 
 TIENSS1::= TIENSS1 TIENS1
 		|TIENS1;
+
+TIENSS2::= TIENSS2  TIENS2
+		|TIENS2;
 
 PRODUSS::= PRODUSS coma PRODUS
 		|PRODUS;
@@ -136,23 +160,31 @@ USUARIOI::= dolar iden dolar VAL1 dolar iden menos dolar;
 
 VAL1::= valorNumerico
 			
-                |iden;
+                |iden
+;
+
+
 				
 USUARIOCS::= USUARIOCS USUARIOC
 			|USUARIOC;
 
 USUARIOC::= dolar iden dolar VAL2 dolar iden menos dolar;
 
-VAL2::= valorNumerico
-				|cadena
-				|corr
-                               |iden;
+VAL2::= VAL1
+    |T ;
+T::= cadena
+    |corr;
+
+
+
 TIENS::= iden igual VAL5;
 
 VAL5::= cadena
 	|valorNumerico;
 
 TIENS1::= dolar iden dolar VAL5 dolar iden menos dolar;
+
+TIENS2::= dolar producto iden igual VAL5 coma  PRODUSS  menos dolar; 
 
 PRODUS1::= dolar iden dolar VAL6 dolar iden menos dolar;
 
@@ -162,20 +194,43 @@ VAL6::= cadena
         |valorNumerico
         |OP;
 
-OP::= llabre OPS llcierra;
 
-OPS::= OPS mas T
-		|OPS menos T 
-		|T;
-	
-T::= T multiplica M 
-	|T barra M 
-	|M;
-	
-M::= rq pabre OPS pcierra
-	|ptn pabre OPS pcierra
-	|ES;
-	
-ES::= pabre OPS pcierra
-	|valorNumerico;
+OP::= llabre OPSS:opes llcierra {:operacion =  opes.toString();
+         System.out.println("EL RESULTADO ES:  "+operacion );:};
 
+OPSS::= OPSS:opes OPS:ope{:RESULT = opes.toString() +ope.toString();:}
+       |OPS:ope{:RESULT = ope.toString() ;:};
+
+
+    //FORMA -------------------------*2*
+
+ OPS ::=  OPS:ope mas OPS:ope2{:
+        int v1 = Integer.parseInt((String) ope);
+        int v2 = Integer.parseInt((String) ope2);
+        int suma =  v1+v2;
+        RESULT = String.valueOf(suma);:}
+        |OPS:ope menos OPS:ope2 {:
+        int v1 = Integer.parseInt((String) ope);
+        int v2 = Integer.parseInt((String) ope2);
+        int resta =  v1-v2;
+        RESULT = String.valueOf(resta);:}
+        |OPS:ope multiplica OPS:ope2{:
+        int v1 = Integer.parseInt((String) ope);
+        int v2 = Integer.parseInt((String) ope2);
+        int mul =  v1*v2;
+        RESULT = String.valueOf(mul);:}
+        |OPS:ope barra OPS:ope2{:
+        int v1 = Integer.parseInt((String) ope);
+        int v2 = Integer.parseInt((String) ope2);
+        int div =  v1/v2;
+        RESULT = String.valueOf(div);:}
+        |rq pabre OPS:ope pcierra {:
+        int v1 = Integer.parseInt((String) ope);
+        int rz = (int) Math.sqrt(v1);
+        RESULT = String.valueOf(rz);:}
+        |ptn pabre OPS:ope pcierra {:
+        int v1 = Integer.parseInt((String) ope);
+        int pt =  (int) Math.pow(v1,2);
+        RESULT = String.valueOf(pt);:}
+        |pabre OPS:ope  pcierra {:RESULT = ope.toString() ;:}
+        |valorNumerico:eso {:RESULT = eso.toString() ;:};
