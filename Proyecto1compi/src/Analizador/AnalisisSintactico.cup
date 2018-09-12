@@ -3,25 +3,63 @@ package Analizador;
 
 import java_cup.runtime.*;
 import proyecto1compi.*;
+
 import Listas.*;
+import java.util.ArrayList;
+
 
 parser code
 {:
 
 
  public String operacion = " ";
-    /*public String cadena=" ";
-     
-    public void enviarLista(String dato){
-        String[] arrayDato = dato.split(";");
+public String imprime = " ";
+public static ArrayList< Atributos> listaA = new ArrayList<Atributos>(); 
+public static ArrayList< Atributos> listaB = new ArrayList<Atributos>(); 
+public static ArrayList< Atributos> listaC = new ArrayList<Atributos>(); 
+public static ArrayList< Atributos> listaAux = new ArrayList<Atributos>(); 
+public static int cont = 1;
+public static int cont2 = 1;
+public static int cont3 = 1;
+public static int cont4 = 1;
+public static int cont5 = 1;
 
-        for(int i = 0; i< arrayDato.length; i++){
-        erroresList list = new erroresList(arrayDato[i]);
-        Open.lista2.add(list);
-        }
+        String hola = " ";
 
-    	
-    }*/
+        String nom = " ";
+        String num = " ";
+        
+        public static boolean banderita = false;
+        boolean c1 = false;
+        boolean c2 = false;
+        boolean c3 = false;
+        boolean c4 = false;
+        boolean c5 = false;
+        boolean c6 = false;
+        boolean c7 = false;
+        boolean c8 = false;
+        boolean c9 = false;
+        boolean c10= false;
+        boolean c11 = false;
+        boolean c12 = false;
+        boolean c13= false;
+        boolean c14= false;
+        boolean c15= false;
+        boolean c16= false;
+        boolean c17 = false;
+        boolean c18 = false;
+        boolean c19= false;
+        boolean c20= false;
+        boolean c21= false;
+        boolean c22= false;
+        boolean c23= false;
+        boolean c24= false;
+        boolean c25= false;
+        boolean c26= false;
+        boolean c27= false;
+        boolean c28= false;
+        boolean c29= false;
+        boolean c30= false;
 
     /**Metodo al que se llama automáticamente ante algún error sintactico.*/
     public void syntax_error(Symbol s){
@@ -29,7 +67,7 @@ parser code
         +s.value + " no reconocido." );
 erroresList error =new erroresList("ERROR SINTACTICO: ",". Identificador "
         +s.value + " no reconocido.","FILA:  "+(s.right+1),"COLUMNA:  "+(s.left+1),"SE ESPERABA OTRA PALABRA");
-        ventanaPrincipal.errorSin.add(error);
+        ventanaPrincipal.errorLex.add(error);
         
     }
 
@@ -41,7 +79,7 @@ erroresList error =new erroresList("ERROR SINTACTICO: ",". Identificador "
 
 erroresList error =new erroresList("ERROR SINTACTICO: ",". Identificador "
         +s.value + " no reconocido.","FILA:  "+(s.right+1),"COLUMNA:  "+(s.left+1),"SE ESPERABA OTRA PALABRA");
-        ventanaPrincipal.errorSin.add(error);
+        ventanaPrincipal.errorLex.add(error);
         
     
     }
@@ -75,9 +113,9 @@ terminal String and,or,corr;
 /*
 * Aquí están los no terminales
 */
-non terminal INICIO,REQ,QUES,QUE,REQS,REQINS,USUARIOC,USUARIOI,TIENS,GTS,GT,VAL1,VAL6;
-non terminal VAL2,USUARIOIS,USUARIOCS,PRODUSS,PRODUS,PRODUS1,PRODUSS1,VAL3,VAL4,VAL4S,TIENSS,VAL5,TIENS1,TIENSS1;
-non terminal RQSS,OP,OPS, T,M,ES,OPSS,TIENS2,TIENSS2,CQUERY;
+non terminal String INICIO,REQ,QUES,QUE,REQS,REQINS,USUARIOC,USUARIOI,TIENS,GTS,GT,VAL1,VAL6;
+non terminal String VAL2,USUARIOIS,USUARIOCS,PRODUSS,PRODUS,PRODUS1,PRODUSS1,VAL3,VAL4,VAL4S,TIENSS,VAL5,TIENS1,TIENSS1;
+non terminal String RQSS,OP,OPS, T,M,ES,OPSS,TIENS2,TIENSS2,CQUERY;
 
 precedence left mas, menos;
 precedence left barra,multiplica;
@@ -88,18 +126,25 @@ precedence left barra,multiplica;
 start with INICIO; // start with sirve para indicarle al parser con que produccion empezar
 
 
-INICIO::= REQS
-		|QUES;
-		
+INICIO::= REQS {:
+System.out.println("ESTOY EN INICIO");
+/*for ( int i = 0; i<ventanaPrincipal.usuarioList.size();i++){
+System.out.println(ventanaPrincipal.usuarioList.get(i).getCodigo());
+}*/
+
+
+:}
+        |QUES;
+        
 REQS::= REQS REQ
-		|REQ;
-		
+        |REQ;
+        
 REQ::= dolar req dolar RQSS dolar req menos dolar;
 
 
 QUES::= QUES QUE
-		|QUE;
-		
+        |QUE;
+        
 QUE::= dolar query dolar CQUERY dolar query menos dolar;
 
 CQUERY ::= extraer de M ES;
@@ -124,14 +169,175 @@ VAL4::= iden igual igual VAL6
 RQSS ::= RQSS REQINS
         |REQINS;
 
-REQINS::= dolar iniciou dolar USUARIOIS dolar iniciou menos dolar
-		| dolar crearu dolar USUARIOCS dolar crearu menos dolar
-                | dolar producto iden igual VAL5 coma  PRODUSS  menos dolar 
-		| dolar producto iden igual cadena dolar PRODUSS1 dolar producto menos dolar 
-                | dolar tienda iden igual VAL5 coma TIENSS  menos dolar 
-		| dolar tienda iden igual cadena dolar TIENSS1 dolar tienda menos dolar 
-                | dolar tienda iden igual valorNumerico dolar TIENSS2 dolar tienda menos dolar 
-		| dolar get GTS menos dolar;
+REQINS::= dolar iniciou dolar USUARIOIS dolar{:
+                    listaAux = new ArrayList<Atributos>();
+                    c22=false;
+                    c23=false;:}
+                 iniciou menos dolar
+                /*{:
+                ventanaPrincipal com = new ventanaPrincipal();
+                com.login(listaAux);
+                :}*/
+                | dolar crearu dolar {:listaA=new ArrayList<Atributos>();
+                c1=false;
+                c2=false;
+                c3=false;
+                c4=false;
+                c5=false;
+                c6=false;
+                c7=false;
+                banderita = false;
+                
+                :} USUARIOCS:f dolar crearu menos dolar
+                {:/*for ( int i = 0; i<listaA.size();i++){
+                System.out.println(listaA.get(i).getTitulo());
+                }*/
+
+                
+
+                elemento usuario = new elemento(cont,listaA);
+
+                ventanaPrincipal verifica = new ventanaPrincipal();
+                verifica.existeU(usuario);
+
+                //System.out.println(banderita);
+                if(banderita == false){
+                ventanaPrincipal.usuarioList.add(usuario);
+                cont++;
+                }
+                
+
+                
+                
+                :}
+                | dolar producto iden:proiden igual VAL5:va5 coma
+                {:  
+                    listaAux = new ArrayList<Atributos>();
+                    String pri =proiden;
+                    String pri2 =va5;
+                    Atributos m = new Atributos(pri,pri2);
+                    listaAux.add(m);
+                    c22=false;
+                    c23=false;
+                    c24=false;
+                    c25=false;
+                    c26=false;
+                    c27=false;
+                    c28=false;
+                    c29=false;
+                    c30=false;
+
+                :} 
+                PRODUSS  menos dolar 
+                {:
+                ventanaPrincipal com = new ventanaPrincipal();
+                com.comparadorP(listaAux);
+
+                elemento moP = new elemento(cont4,listaAux);
+                ventanaPrincipal.modificaPList.add(moP);
+                cont4++;
+
+                :}
+                | dolar producto iden igual cadena dolar{:listaB=new ArrayList<Atributos>();
+                c8=false;
+                c9=false;
+                c10=false;
+                c11=false;
+                c12=false;
+                c13=false;
+                c14=false;
+                c15=false;
+                banderita = false;
+                :} PRODUSS1 dolar producto menos dolar 
+                {:/*for ( int i = 0; i<listaB.size();i++){
+                System.out.println(listaB.get(i).getTitulo());
+                }*/
+
+                elemento producto = new elemento(cont2,listaB);
+
+                ventanaPrincipal verifica = new ventanaPrincipal();
+                verifica.creacionP(producto);
+
+                if(banderita == false){
+                ventanaPrincipal.productoList.add(producto);
+                cont2++;
+                }
+
+                
+
+             
+                :}
+
+
+                | dolar tienda iden:proiden igual VAL5:va5 coma 
+                {:  
+                    listaAux = new ArrayList<Atributos>();
+                    String pri =proiden;
+                    String pri2 =va5;
+                    Atributos m = new Atributos(pri,pri2);
+                    listaAux.add(m);
+                    c22=false;
+                    c23=false;
+                    c24=false;
+                    c25=false;
+                    c26=false;
+                    c27=false;
+                    c28=false;
+                    c29=false;
+                    c30=false;
+
+                :}
+                TIENSS  menos dolar 
+                {:
+                ventanaPrincipal com = new ventanaPrincipal();
+                com.comparadorT(listaAux);
+
+                elemento moT = new elemento(cont5,listaAux);
+
+                ventanaPrincipal verifica = new ventanaPrincipal();
+                verifica.modificaT(moT);
+                
+                ventanaPrincipal.modificaTList.add(moT);
+                cont5++;
+                :}
+                | dolar tienda iden igual cadena dolar {:listaC=new ArrayList<Atributos>();
+                c16=false;
+                c17=false;
+                c18=false;
+                c19=false;
+                c20=false;
+                c21=false;
+                banderita = false;
+                :} TIENSS1 dolar tienda menos dolar 
+                {:/*for ( int i = 0; i<listaC.size();i++){
+                System.out.println(listaC.get(i).getTitulo());
+                }*/
+
+                elemento tienda = new elemento(cont3,listaC);
+
+
+                ventanaPrincipal verifica = new ventanaPrincipal();
+                verifica.creacionT(tienda);
+
+                if(banderita == false){
+                ventanaPrincipal.tiendaList.add(tienda);
+                cont3++;
+                }
+
+                
+
+                
+                :}
+
+
+                | dolar tienda iden:proiden igual valorNumerico:vn dolar 
+                {:  
+                    nom = proiden.toString();
+                    num = vn.toString();
+                :} 
+                TIENSS2 dolar tienda menos dolar 
+                
+                | dolar get GTS menos dolar;
 
 GTS::= GTS GT
         |GT;
@@ -139,64 +345,447 @@ GTS::= GTS GT
 GT::= iden igual VAL5; 
 
 TIENSS::= TIENSS coma TIENS
-		|TIENS;
+        |TIENS;
 
 TIENSS1::= TIENSS1 TIENS1
-		|TIENS1;
+        |TIENS1;
 
 TIENSS2::= TIENSS2  TIENS2
-		|TIENS2;
+        |TIENS2;
 
 PRODUSS::= PRODUSS coma PRODUS
-		|PRODUS;
+        |PRODUS;
 
 PRODUSS1::= PRODUSS1 PRODUS1
-		|PRODUS1;
+        |PRODUS1;
 
 USUARIOIS::= USUARIOIS USUARIOI
-			|USUARIOI;
+            |USUARIOI;
 
 USUARIOI::= dolar iden dolar VAL1 dolar iden menos dolar;
 
-VAL1::= valorNumerico
-			
-                |iden
+VAL1::= valorNumerico:a {:RESULT = a.toString();:}
+            
+                |iden:a {:RESULT = a.toString();:}
 ;
 
 
-				
+                
 USUARIOCS::= USUARIOCS USUARIOC
-			|USUARIOC;
 
-USUARIOC::= dolar iden dolar VAL2 dolar iden menos dolar;
+            |USUARIOC;
 
-VAL2::= VAL1
-    |T ;
-T::= cadena
-    |corr;
+USUARIOC::= dolar iden:e dolar VAL2:d dolar iden menos dolar
+            {:RESULT = e.toString()+d.toString();
+            imprime = e.toString(); 
+           if("nombre".equals(imprime)){
+                if(c1==false){
+                Atributos nuevo = new Atributos(e.toString(),d.toString());
+                listaA.add(nuevo);               
+                c1 = true;
+                }else{
+                System.out.println("YA SE AGREGO NOMBRE");
+                }
+                
+            } else if("apellido".equals(imprime)){
+                if(c2==false){
+                Atributos nuevo = new Atributos(e.toString(),d.toString());
+                listaA.add(nuevo);               
+                c2 = true;
+                }else{
+                System.out.println("YA SE AGREGO APELLIDO");
+                }
+                
+            } else if("id".equals(imprime)){
+                if(c3==false){
+                Atributos nuevo = new Atributos(e.toString(),d.toString());
+                listaA.add(nuevo);               
+                c3 = true;
+                }else{
+                System.out.println("YA SE AGREGO ID");
+                }
+                
+            } else if("password".equals(imprime)){
+                if(c4==false){
+                Atributos nuevo = new Atributos(e.toString(),d.toString());
+                listaA.add(nuevo);               
+                c4 = true;
+                }else{
+                System.out.println("YA SE AGREGO PASSWORD");
+                }
+                
+            } else if("telefono".equals(imprime)){
+                if(c5==false){
+                Atributos nuevo = new Atributos(e.toString(),d.toString());
+                listaA.add(nuevo);               
+                c5 = true;
+                }else{
+                System.out.println("YA SE AGREGO TELEFONO");
+                }
+                
+            } else if("email".equals(imprime)){
+
+                if(c6==false){
+                Atributos nuevo = new Atributos(e.toString(),d.toString());
+                listaA.add(nuevo);               
+                c6 = true;
+                }else{
+                System.out.println("YA SE AGREGO EMAIL");
+                }
+                
+            } else if("direccion".equals(imprime)){
+                if(c7==false){
+                Atributos nuevo = new Atributos(e.toString(),d.toString());
+                listaA.add(nuevo);               
+                c7 = true;
+                }else{
+                System.out.println("YA SE AGREGO DIRECCION");
+                }
+                
+            }
+            
+            :};
+
+VAL2::= VAL1:a{:RESULT = a.toString();:}
+    |T:c{:RESULT = c.toString();:};
+T::= cadena:c{:RESULT = c.toString();:}
+    |corr:c{:RESULT = c.toString();:};
 
 
 
-TIENS::= iden igual VAL5;
+TIENS::= iden:cadt igual VAL5:va5
+{:RESULT = cadt.toString()+va5.toString();          
+           imprime = cadt.toString(); 
+           if("codigo".equals(imprime)){
+                if(c22==false){
+                Atributos nuevoAu = new Atributos( cadt.toString(),va5.toString());
+                listaAux.add(nuevoAu);                
+                c22 = true;
+                }else{
+                System.out.println("YA SE AGREGO CODIGO");
+                }
+                
+            } else if("nombre".equals(imprime)){
+                if(c23==false){
+                Atributos nuevoAu = new Atributos( cadt.toString(),va5.toString());
+                listaAux.add(nuevoAu);            
+                c23 = true;
+                }else{
+                System.out.println("YA SE AGREGO NOMBRE");
+                }
+                
+            } else if("propietario".equals(imprime)){
+                if(c24==false){
+               Atributos nuevoAu = new Atributos( cadt.toString(),va5.toString());
+                listaAux.add(nuevoAu);                 
+                c24 = true;
+                }else{
+                System.out.println("YA SE AGREGO PROPIETARIO");
+                }
+                
+            } else if("img".equals(imprime)){
+                if(c25==false){
+                Atributos nuevoAu = new Atributos( cadt.toString(),va5.toString());
+                listaAux.add(nuevoAu);              
+                c25 = true;
+                }else{
+                System.out.println("YA SE AGREGO IMG");
+                }
+                
+            } else if("direccion".equals(imprime)){
+                if(c26==false){
+                Atributos nuevoAu = new Atributos( cadt.toString(),va5.toString());
+                listaAux.add(nuevoAu);                 
+                c26= true;
+                }else{
+                System.out.println("YA SE AGREGO DIRECCION");
+                }
+                
+            }else if("telefono".equals(imprime)){
+                if(c27==false){
+                Atributos nuevoAu = new Atributos( cadt.toString(),va5.toString());
+                listaAux.add(nuevoAu);                  
+                c27 = true;
+                }else{
+                System.out.println("YA SE AGREGO TELEFONO");
+                }
+                
+            } else if("tipo".equals(imprime)){
+                if(c28==false){
+                Atributos nuevoAu = new Atributos( cadt.toString(),va5.toString());
+                listaAux.add(nuevoAu);                   
+                c28 = true;
+                }else{
+                System.out.println("YA SE AGREGO TIPO");
+                }
+                
+            } 
+            :};
 
-VAL5::= cadena
-	|valorNumerico;
+VAL5::= cadena:va5 {:RESULT = va5.toString();:}
+    |valorNumerico:va5{:RESULT = va5.toString();:};
 
-TIENS1::= dolar iden dolar VAL5 dolar iden menos dolar;
+TIENS1::= dolar iden:tie1 dolar VAL5:va5 dolar iden menos dolar
+           {:RESULT = tie1.toString()+va5.toString();          
+           imprime = tie1.toString(); 
+           if("codigo".equals(imprime)){
+                if(c16==false){
+                Atributos nuevo3 = new Atributos( tie1.toString(),va5.toString());
+                listaC.add(nuevo3);         
+                c16 = true;
+                }else{
+                System.out.println("YA SE AGREGO CODIGO");
+                }
+                
+            } else if("nombre".equals(imprime)){
+                if(c17==false){
+                Atributos nuevo3 = new Atributos( tie1.toString(),va5.toString());
+                listaC.add(nuevo3); 
+                c17 = true;
+                }else{
+                System.out.println("YA SE AGREGO NOMBRE");
+                }
+                
+            } else if("propietario".equals(imprime)){
+                if(c18==false){
+               Atributos nuevo3 = new Atributos( tie1.toString(),va5.toString());
+                listaC.add(nuevo3);              
+                c18 = true;
+                }else{
+                System.out.println("YA SE AGREGO PROPIETARIO");
+                }
+                
+            } else if("img".equals(imprime)){
+                if(c19==false){
+                Atributos nuevo3 = new Atributos( tie1.toString(),va5.toString());
+                listaC.add(nuevo3);              
+                c19 = true;
+                }else{
+                System.out.println("YA SE AGREGO IMG");
+                }
+                
+            } else if("direccion".equals(imprime)){
+                if(c20==false){
+                Atributos nuevo3 = new Atributos( tie1.toString(),va5.toString());
+                listaC.add(nuevo3);               
+                c20 = true;
+                }else{
+                System.out.println("YA SE AGREGO DIRECCION");
+                }
+                
+            }else if("telefono".equals(imprime)){
+                if(c21==false){
+                Atributos nuevo3 = new Atributos( tie1.toString(),va5.toString());
+                listaC.add(nuevo3);              
+                c21 = true;
+                }else{
+                System.out.println("YA SE AGREGO TELEFONO");
+                }
+                
+            }
+            
+            :};
 
-TIENS2::= dolar producto iden igual VAL5 coma  PRODUSS  menos dolar; 
+TIENS2::= dolar producto iden:proiden igual VAL5:va5 coma  
+            {:  
+                    listaAux = new ArrayList<Atributos>();
+                    String ri =proiden;
+                    String ri2 =va5;
+                    Atributos m3 = new Atributos(nom,num);
+                    Atributos m2 = new Atributos(ri,ri2);
+                    listaAux.add(m3);
+                    listaAux.add(m2);
+                    c22=false;
+                    c23=false;
+                    c24=false;
+                    c25=false;
+                    c26=false;
+                    c27=false;
+                    c28=false;
+                    c29=false;
+                    c30=false;
 
-PRODUS1::= dolar iden dolar VAL6 dolar iden menos dolar;
+                :} 
+            PRODUSS menos dolar
+            {:
+                ventanaPrincipal com = new ventanaPrincipal();
+                com.comparadorP(listaAux);
 
-PRODUS::= iden igual VAL6;
+                elemento moP = new elemento(cont4,listaAux);
+                ventanaPrincipal.modificaPList.add(moP);
+                cont4++;
+                :}; 
 
-VAL6::= cadena
-        |valorNumerico
-        |OP;
+PRODUS1::= dolar iden:pro1i dolar VAL6:va6 dolar iden menos dolar
 
+            {:RESULT = pro1i.toString()+va6.toString();          
+           imprime = pro1i.toString(); 
+           if("codigo".equals(imprime)){
+                if(c8==false){
+                Atributos nuevo2 = new Atributos( pro1i.toString(),va6.toString());
+                listaB.add(nuevo2);                
+                c8 = true;
+                }else{
+                System.out.println("YA SE AGREGO CODIGO");
+                }
+                
+            } else if("nombre".equals(imprime)){
+                if(c9==false){
+                Atributos nuevo2 = new Atributos( pro1i.toString(),va6.toString());
+                listaB.add(nuevo2);               
+                c9 = true;
+                }else{
+                System.out.println("YA SE AGREGO NOMBRE");
+                }
+                
+            } else if("cantidad".equals(imprime)){
+                if(c10==false){
+               Atributos nuevo2 = new Atributos( pro1i.toString(),va6.toString());
+                listaB.add(nuevo2);                 
+                c10 = true;
+                }else{
+                System.out.println("YA SE AGREGO CANTIDAD");
+                }
+                
+            } else if("img".equals(imprime)){
+                if(c11==false){
+                Atributos nuevo2 = new Atributos( pro1i.toString(),va6.toString());
+                listaB.add(nuevo2);               
+                c11 = true;
+                }else{
+                System.out.println("YA SE AGREGO IMG");
+                }
+                
+            } else if("marca".equals(imprime)){
+                if(c12==false){
+                Atributos nuevo2 = new Atributos( pro1i.toString(),va6.toString());
+                listaB.add(nuevo2);               
+                c12 = true;
+                }else{
+                System.out.println("YA SE AGREGO MARCA");
+                }
+                
+            }else if("color".equals(imprime)){
+                if(c13==false){
+                Atributos nuevo2 = new Atributos( pro1i.toString(),va6.toString());
+                listaB.add(nuevo2);                
+                c13 = true;
+                }else{
+                System.out.println("YA SE AGREGO COLOR");
+                }
+                
+            } else if("tamaño".equals(imprime)){
+                if(c14==false){
+                Atributos nuevo2 = new Atributos( pro1i.toString(),va6.toString());
+                listaB.add(nuevo2);                
+                c14 = true;
+                }else{
+                System.out.println("YA SE AGREGO TAMAÑO");
+                }
+                
+            } else if("sucursal".equals(imprime)){
+                if(c15==false){
+                Atributos nuevo2 = new Atributos( pro1i.toString(),va6.toString());
+                listaB.add(nuevo2);              
+                c15 = true;
+                }else{
+                System.out.println("YA SE AGREGO SUCURSAL");
+                }
+                
+            }
+            
+            :}  ;         
+            
+
+
+PRODUS::= iden:cadp igual VAL6:va6
+{:RESULT = cadp.toString()+va6.toString();          
+           imprime = cadp.toString(); 
+           if("codigo".equals(imprime)){
+                if(c22==false){
+                Atributos nuevoAu = new Atributos( cadp.toString(),va6.toString());
+                listaAux.add(nuevoAu);                
+                c22 = true;
+                }else{
+                System.out.println("YA SE AGREGO CODIGO");
+                }
+                
+            } else if("nombre".equals(imprime)){
+                if(c23==false){
+                Atributos nuevoAu = new Atributos( cadp.toString(),va6.toString());
+                listaAux.add(nuevoAu);              
+                c23 = true;
+                }else{
+                System.out.println("YA SE AGREGO NOMBRE");
+                }
+                
+            } else if("cantidad".equals(imprime)){
+                if(c24==false){
+               Atributos nuevoAu = new Atributos( cadp.toString(),va6.toString());
+                listaAux.add(nuevoAu);                  
+                c24 = true;
+                }else{
+                System.out.println("YA SE AGREGO CANTIDAD");
+                }
+                
+            } else if("img".equals(imprime)){
+                if(c25==false){
+                Atributos nuevoAu = new Atributos( cadp.toString(),va6.toString());
+                listaAux.add(nuevoAu);                
+                c25 = true;
+                }else{
+                System.out.println("YA SE AGREGO IMG");
+                }
+                
+            } else if("marca".equals(imprime)){
+                if(c26==false){
+                Atributos nuevoAu = new Atributos( cadp.toString(),va6.toString());
+                listaAux.add(nuevoAu);                
+                c26= true;
+                }else{
+                System.out.println("YA SE AGREGO MARCA");
+                }
+                
+            }else if("color".equals(imprime)){
+                if(c27==false){
+                Atributos nuevoAu = new Atributos( cadp.toString(),va6.toString());
+                listaAux.add(nuevoAu);                 
+                c27 = true;
+                }else{
+                System.out.println("YA SE AGREGO COLOR");
+                }
+                
+            } else if("tamaño".equals(imprime)){
+                if(c28==false){
+                Atributos nuevoAu = new Atributos( cadp.toString(),va6.toString());
+                listaAux.add(nuevoAu);                  
+                c28 = true;
+                }else{
+                System.out.println("YA SE AGREGO TAMAÑO");
+                }
+                
+            } else if("sucursal".equals(imprime)){
+                if(c29==false){
+                Atributos nuevoAu = new Atributos( cadp.toString(),va6.toString());
+                listaAux.add(nuevoAu);               
+                c29 = true;
+                }else{
+                System.out.println("YA SE AGREGO SUCURSAL");
+                }
+                
+            }
+            :}
+
+;
+
+VAL6::= cadena:va6{:RESULT = va6.toString();:}
+        |valorNumerico:va6 {:RESULT = va6.toString();:}
+        |OP:res{:RESULT = res.toString();:} ;
 
 OP::= llabre OPSS:opes llcierra {:operacion =  opes.toString();
-         System.out.println("EL RESULTADO ES:  "+operacion );:};
+        // System.out.println("EL RESULTADO ES:  "+operacion );
+RESULT = opes.toString();
+:};
 
 OPSS::= OPSS:opes OPS:ope{:RESULT = opes.toString() +ope.toString();:}
        |OPS:ope{:RESULT = ope.toString() ;:};

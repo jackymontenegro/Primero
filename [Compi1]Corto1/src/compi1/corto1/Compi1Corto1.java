@@ -3,28 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package proyecto1compi;
+package compi1.corto1;
 
 import Analizador.Generadores;
-import pagina.*;
 
 /**
  *
- * @author Jacksggbgfvghbjklñ{}{pñolikuyty Montenegro
+ * @author Jacky Montenegro
  */
-public class Proyecto1compi {
+public class Compi1Corto1 {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        ventanaPrincipal ventana = new ventanaPrincipal();
-        ventana.setVisible(true);
+        ventanaPrincipal ventanita = new ventanaPrincipal();
+        ventanita.setVisible(true);
         Generadores.generarCompilador();
-        generaPHP nuevo = new generaPHP();
-        nuevo.paginaP();
-
+       
     }
-
+    
 }

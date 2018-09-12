@@ -1,0 +1,109 @@
+
+package Analizador;
+
+import java_cup.runtime.*;
+import compi1.corto1.ventanaPrincipal;
+
+import Listas.*;
+import java.util.ArrayList;
+
+
+parser code
+{:
+
+String operacion = " ";
+    /**Metodo al que se llama automáticamente ante algún error sintactico.*/
+    public void syntax_error(Symbol s){
+        System.err.println("Error en la Línea " + (s.right+1) +" Columna "+(s.left+1)+ ". Identificador "
+        +s.value + " no reconocido." );
+erroresList error =new erroresList("ERROR SINTACTICO: ",". Identificador "
+        +s.value + " no reconocido.","FILA:  "+(s.right+1),"COLUMNA:  "+(s.left+1),"SE ESPERABA OTRA PALABRA");
+        ventanaPrincipal.errorLex.add(error);
+        
+    }
+
+    /**Metodo al que se llama en el momento en que ya no es posible una recuperación de
+    errores.*/
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
+        System.err.println("Error en la Línea " + (s.right+1)+ "Columna "+(s.left+1)+". Identificador " +
+        s.value + " no reconocido.");
+
+erroresList error =new erroresList("ERROR SINTACTICO: ",". Identificador "
+        +s.value + " no reconocido.","FILA:  "+(s.right+1),"COLUMNA:  "+(s.left+1),"SE ESPERABA OTRA PALABRA");
+        ventanaPrincipal.errorLex.add(error);
+        
+    
+    }
+
+    /*public Nodo getRaiz(){
+        return action_obj.raiz;
+    }*/
+:}
+
+
+action code {:
+    //Nodo raiz=null;
+    
+:}
+
+/*terminales reservados*/
+terminal String req;
+terminal String dolar,menos,igual,coma,valorNumerico,cadena,iden;  
+terminal String pyc,pabre,pcierra,llabre,llcierra,barra,mas,multiplica;
+terminal String corr;
+
+
+/*
+* Este terminal tiene un valor string. Recuerda que le dábamos el valor
+* en el código del analizador léxico, al darle como parámetro un valor
+* string al objeto Symbolo.
+*/
+
+
+/*
+* Aquí están los no terminales
+*/
+non terminal String INICIO,OPSS,OPS;
+
+precedence left mas, menos;
+precedence left barra,multiplica;
+
+
+
+/* ­­­­­­­­­­­­­­ Declaración de la gramática  ­­­­­­­­­­­ */
+start with INICIO; // start with sirve para indicarle al parser con que produccion empezar
+
+
+INICIO::= OPSS:opes;
+
+
+
+
+OPSS::= OPSS:opes OPS:ope {:System.out.println(ope);:}
+       |OPS:ope{:System.out.println(ope);:};
+
+
+ OPS ::=  OPS:ope mas:m OPS:ope2{:
+        
+        RESULT = ope+ope2+m;
+        //System.out.println(ope+ope2+m);
+        :}
+
+        |OPS:ope menos:me OPS:ope2 {:
+        
+        RESULT= ope+ope2+me;
+          //System.out.println(ope+ope2+me);:}
+        |OPS:ope multiplica:mu OPS:ope2{:
+        
+        
+         RESULT = ope+ope2+mu;
+       // System.out.println(ope+ope2+mu);:}
+        |OPS:ope barra:b OPS:ope2{:
+        
+        RESULT = ope+ope2+b;
+        //System.out.println(ope+ope2+b);:}
+         
+
+        
+        |pabre OPS:ope  pcierra {:RESULT = ope.toString() ;:}
+        |valorNumerico:eso {:RESULT = eso.toString() ;:};
