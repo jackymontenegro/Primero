@@ -38,7 +38,7 @@ public class creacionJMarchivos {
                     String usu2 = usuarioList.get(i).getListaAtribu().get(j).getTitulo();
                     String usu3 = usuarioList.get(i).getListaAtribu().get(j).getContenido();
 
-                    cadena += usu2 + ":" + usu3 + ",";
+                    cadena += usu2 + "!" + usu3 + ",";
                 }
 
                 cadenaf = usu + "," + cadena + "\n";
@@ -46,7 +46,7 @@ public class creacionJMarchivos {
             }
 
             bw.close();
-            JOptionPane.showMessageDialog(null, "JM USUARIO");
+           // JOptionPane.showMessageDialog(null, "JM USUARIO");
 
         } catch (IOException e) {
         }
@@ -71,7 +71,7 @@ public class creacionJMarchivos {
                     String usu2 = tiendaList.get(i).getListaAtribu().get(j).getTitulo();
                     String usu3 = tiendaList.get(i).getListaAtribu().get(j).getContenido();
 
-                    cadena += usu2 + ":" + usu3 + ",";
+                    cadena += usu2 + "!" + usu3 + ",";
                 }
 
                 cadenaf = usu + "," + cadena + "\n";
@@ -79,7 +79,7 @@ public class creacionJMarchivos {
             }
 
             bw.close();
-            JOptionPane.showMessageDialog(null, "JM TIENDA");
+         //   JOptionPane.showMessageDialog(null, "JM TIENDA");
 
         } catch (IOException e) {
         }
@@ -104,7 +104,7 @@ public class creacionJMarchivos {
                     String usu2 = productoList.get(i).getListaAtribu().get(j).getTitulo();
                     String usu3 = productoList.get(i).getListaAtribu().get(j).getContenido();
 
-                    cadena += usu2 + ":" + usu3 + ",";
+                    cadena += usu2 + "!" + usu3 + ",";
                 }
 
                 cadenaf = usu + "," + cadena + "\n";
@@ -112,7 +112,7 @@ public class creacionJMarchivos {
             }
 
             bw.close();
-            JOptionPane.showMessageDialog(null, "JM PRODUCTO");
+           // JOptionPane.showMessageDialog(null, "JM PRODUCTO");
 
         } catch (IOException e) {
         }

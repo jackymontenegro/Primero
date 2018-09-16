@@ -36,6 +36,7 @@ import javax.swing.JTextArea;
 import javax.swing.event.CaretEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
+import pagina.generaPHP;
 
 /**
  *
@@ -59,6 +60,7 @@ public class ventanaPrincipal extends javax.swing.JFrame {
     public static ArrayList<elemento> modificaPList = new ArrayList<elemento>();
     public static ArrayList<elemento> modificaTList = new ArrayList<elemento>();
     public static ArrayList<Atributos> auxLista = new ArrayList<Atributos>();
+    ArrayList<Integer> lista = new ArrayList<Integer>();
 
     int linea;
     int p = 0;
@@ -66,6 +68,8 @@ public class ventanaPrincipal extends javax.swing.JFrame {
 
     creacionPDFerrores nuevo = new creacionPDFerrores();
     creacionJMarchivos jm = new creacionJMarchivos();
+    int num = 0;
+    int num2 = 0;
 
     /**
      * Creates new form ventanaPrincipal
@@ -184,6 +188,9 @@ public class ventanaPrincipal extends javax.swing.JFrame {
         imprimeB();
         imprimeC();*/
         JOptionPane.showMessageDialog(null, "YA SE ANALIZO");
+
+        generaPHP nuevo = new generaPHP();
+        nuevo.paginaP();
 
         abreReporte();
         errorLex.clear();
@@ -391,8 +398,7 @@ public class ventanaPrincipal extends javax.swing.JFrame {
         String idn = " ";
         String idn2 = " ";
 
-       // System.out.println("USUARIOS");
-
+        // System.out.println("USUARIOS");
         if (!usuarioList.isEmpty()) {
 
             //System.out.println(" la lista ya tiene elementos");
@@ -436,8 +442,7 @@ public class ventanaPrincipal extends javax.swing.JFrame {
         String idn = " ";
         String idn2 = " ";
 
-      //  System.out.println("TIENDA");
-
+        //  System.out.println("TIENDA");
         if (!usuarioList.isEmpty()) {
 
             //System.out.println(" la lista ya tiene elementos");
@@ -483,7 +488,7 @@ public class ventanaPrincipal extends javax.swing.JFrame {
         String id2 = " ";
         String idn = " ";
         String idn2 = " ";
-        String img = " ";
+        String img = "cuatro.jpg";
 
         //  System.out.println("TIENDA2");
         if (!tiendaList.isEmpty()) {
@@ -562,11 +567,38 @@ public class ventanaPrincipal extends javax.swing.JFrame {
         String codigoP2 = " ";
         String img = " ";
 
-      //  System.out.println("PRODUCTOS");
-
+        //  System.out.println("PRODUCTOS");
         if (!tiendaList.isEmpty()) {
 
             // System.out.println(" la lista ya tiene elementos");
+            for (int k = 0; k < trae.getListaAtribu().size(); k++) {
+                id2 = trae.getListaAtribu().get(k).getTitulo();
+
+                if ("sucursal".equals(id2)) {
+
+                    sucursal = trae.getListaAtribu().get(k).getContenido();
+                    //System.out.println(id2 + " tienda " + idn2);
+                }
+
+                if ("codigo".equalsIgnoreCase(id2)) {
+
+                    codigoP = trae.getListaAtribu().get(k).getContenido();
+                }
+
+                if ("img".equals(id2)) {
+                    img = trae.getListaAtribu().get(k).getContenido();
+
+                    File ru = new File(img.substring(1, img.length() - 1));
+                    if (!ru.exists()) {
+                        //System.out.println("NO EXISTE RUTA" + img);
+
+                        parser.banderita = true;
+                        return;
+                    }
+
+                    //System.out.println("VERIFICANDO IMAGEN");
+                }
+            }
             for (int i = 0; i < tiendaList.size(); i++) {
                 //System.out.println(usuarioList.size());
                 for (int j = 0; j < tiendaList.get(i).getListaAtribu().size(); j++) {
@@ -574,39 +606,11 @@ public class ventanaPrincipal extends javax.swing.JFrame {
 
                     if ("codigo".equals(id)) {
                         idn = tiendaList.get(i).getListaAtribu().get(j).getContenido();
-                        //System.out.println(id + " usuario " + idn);
-
-                        for (int k = 0; k < trae.getListaAtribu().size(); k++) {
-                            id2 = trae.getListaAtribu().get(k).getTitulo();
-
-                            if ("sucursal".equals(id2)) {
-
-                                sucursal = trae.getListaAtribu().get(k).getContenido();
-                                //System.out.println(id2 + " tienda " + idn2);
-                            }
-
-                            if ("codigo".equalsIgnoreCase(id2)) {
-
-                                codigoP = trae.getListaAtribu().get(k).getContenido();
-                            }
-
-                            if ("img".equals(id2)) {
-                                img = trae.getListaAtribu().get(k).getContenido();
-
-                                File ru = new File(img.substring(1, img.length() - 1));
-                                if (!ru.exists()) {
-                                    //System.out.println("NO EXISTE RUTA" + img);
-
-                                    parser.banderita = true;
-                                }
-
-                                //System.out.println("VERIFICANDO IMAGEN");
-                            }
-                        }
-
+                        //System.out.println(id + " usuario " + idn)
                         if (idn.equals(sucursal)) {
                             // System.out.println("SON IGUALES " + idn + " = " + idn2);
                             creacionP2(sucursal, codigoP);
+                            return;
                         }
 
                     }
@@ -642,6 +646,7 @@ public class ventanaPrincipal extends javax.swing.JFrame {
 
             if (sucursal.equals(sucursal2) && codigoP.equals(codigoP2)) {
                 parser.banderita = true;
+                return;
             }
         }
     }
@@ -670,19 +675,19 @@ public class ventanaPrincipal extends javax.swing.JFrame {
     public void modificaT(elemento trae) {
         String tipo = " ";
         String titulo = " ";
-        System.out.println("MODIFICA TIENDA");
+        //  System.out.println("MODIFICA TIENDA");
         for (int i = 0; i < trae.getListaAtribu().size(); i++) {
             titulo = trae.getListaAtribu().get(i).getTitulo();
 
             if ("tipo".equals(titulo)) {
                 tipo = trae.getListaAtribu().get(i).getContenido();
-               // System.out.println(titulo);
+                // System.out.println(titulo);
                 if ("\"modificacion\"".equals(tipo) || "\"modificar\"".equals(tipo)) {
                     //System.out.println(tipo);
                     moT(trae);
                 }
                 if ("\"eliminar\"".equals(tipo)) {
-                   // System.out.println(tipo);
+                    // System.out.println(tipo);
                     elT(trae);
                 }
             }
@@ -698,41 +703,42 @@ public class ventanaPrincipal extends javax.swing.JFrame {
         String id = " ";
         String idn = " ";
         String img = " ";
-        int num = 0;
         //System.out.println("222 MODIFICACION TIENDA");
         if (!tiendaList.isEmpty()) {
 
             //System.out.println(" la lista ya tiene elementos");
             for (int i = 0; i < tiendaList.size(); i++) {
+                num = i;
+
                 //System.out.println(usuarioList.size());
                 for (int j = 0; j < tiendaList.get(i).getListaAtribu().size(); j++) {
                     id = tiendaList.get(i).getListaAtribu().get(j).getTitulo();
 
                     if ("propietario".equals(id)) {
-                       
+
                         propietario1 = tiendaList.get(i).getListaAtribu().get(j).getContenido();
                         // System.out.println(id+propietario1);
-                         num = i;
+                        num = i;
                     }
 
                     if ("codigo".equals(id)) {
-                       
+
                         idn = tiendaList.get(i).getListaAtribu().get(j).getContenido();
-                       //  System.out.println(id+idn);
+                        //  System.out.println(id+idn);
                         //System.out.println(id + " codigo " + idn);
 
                     }
                     for (int k = 0; k < trae.getListaAtribu().size(); k++) {
                         tipo = trae.getListaAtribu().get(k).getTitulo();
-                        
+
                         if ("codigo".equals(tipo)) {
                             tipoc = trae.getListaAtribu().get(k).getContenido();
-                          //  System.out.println(tipo+tipoc);
+                            //  System.out.println(tipo+tipoc);
                         }
 
                         if ("propietario".equals(tipo)) {
                             propietario = trae.getListaAtribu().get(k).getContenido();
-                           // System.out.println(tipo+propietario);
+                            // System.out.println(tipo+propietario);
                         }
 
                         if ("img".equals(tipo)) {
@@ -742,7 +748,7 @@ public class ventanaPrincipal extends javax.swing.JFrame {
                             if (!ru.exists()) {
                                 // System.out.println("NO EXISTE RUTA"+img);
 
-                                parser.banderita = true;
+                                return;
                             }
 
                             //System.out.println("VERIFICANDO IMAGEN");
@@ -750,8 +756,9 @@ public class ventanaPrincipal extends javax.swing.JFrame {
                     }
 
                     if (idn.equals(tipoc) && propietario.equals(propietario1)) {
-                       // System.out.println("SON IGUALES " + idn + " = " + tipoc+" Y "+propietario+" = "+propietario1);
-                        moTF(trae, num);
+                        // System.out.println("SON IGUALES " + idn + " = " + tipoc+" Y "+propietario+" = "+propietario1);
+                        moTF(trae);
+
                     }
                 }
             }
@@ -760,23 +767,22 @@ public class ventanaPrincipal extends javax.swing.JFrame {
 
     }
 
-    private void moTF(elemento trae, int num) {
+    private void moTF(elemento trae) {
         String tipo = " ";
         String img = " ";
         String nombre = " ";
         String direccion = " ";
         String telefono = " ";
-        
-            System.out.println("ENTRO AL ULTIMO MODIFICAR O:"+num);
 
+        //    System.out.println("ENTRO AL ULTIMO MODIFICAR O:" + num);
         for (int k = 0; k < trae.getListaAtribu().size(); k++) {
             tipo = trae.getListaAtribu().get(k).getTitulo();
             if ("nombre".equals(tipo)) {
                 nombre = trae.getListaAtribu().get(k).getContenido();
-               // System.out.println(nombre+tipo);
+                // System.out.println(nombre+tipo);
                 for (int j = 0; j < tiendaList.get(num).getListaAtribu().size(); j++) {
                     if ("nombre".equals(tiendaList.get(num).getListaAtribu().get(j).getTitulo())) {
-                        
+
                         tiendaList.get(num).getListaAtribu().get(j).setContenido(nombre);
                         //System.out.println(tiendaList.get(num).getListaAtribu().get(j).getTitulo());
                     }
@@ -785,11 +791,11 @@ public class ventanaPrincipal extends javax.swing.JFrame {
 
             if ("direccion".equals(tipo)) {
                 direccion = trae.getListaAtribu().get(k).getContenido();
-               // System.out.println(direccion + tipo);
+                // System.out.println(direccion + tipo);
                 for (int j = 0; j < tiendaList.get(num).getListaAtribu().size(); j++) {
                     if ("direccion".equals(tiendaList.get(num).getListaAtribu().get(j).getTitulo())) {
                         tiendaList.get(num).getListaAtribu().get(j).setContenido(direccion);
-                      //  System.out.println(tiendaList.get(num).getListaAtribu().get(j).getTitulo());
+                        //  System.out.println(tiendaList.get(num).getListaAtribu().get(j).getTitulo());
                     }
                 }
             }
@@ -800,14 +806,14 @@ public class ventanaPrincipal extends javax.swing.JFrame {
                 for (int j = 0; j < tiendaList.get(num).getListaAtribu().size(); j++) {
                     if ("img".equals(tiendaList.get(num).getListaAtribu().get(j).getTitulo())) {
                         tiendaList.get(num).getListaAtribu().get(j).setContenido(img);
-                       // System.out.println(tiendaList.get(num).getListaAtribu().get(j).getTitulo());
+                        // System.out.println(tiendaList.get(num).getListaAtribu().get(j).getTitulo());
                     }
                 }
 
             }
             if ("telefono".equals(tipo)) {
                 telefono = trae.getListaAtribu().get(k).getContenido();
-               // System.out.println(telefono+tipo);
+                // System.out.println(telefono+tipo);
                 for (int j = 0; j < tiendaList.get(num).getListaAtribu().size(); j++) {
                     if ("telefono".equals(tiendaList.get(num).getListaAtribu().get(j).getTitulo())) {
                         tiendaList.get(num).getListaAtribu().get(j).setContenido(telefono);
@@ -819,7 +825,454 @@ public class ventanaPrincipal extends javax.swing.JFrame {
     }
 
     private void elT(elemento trae) {
-        System.out.println("hola");
+        num = 0;
+        String tipo = " ";
+        String tipoc = " ";
+        String propietario = " ";
+        String propietario1 = " ";
+        String id = " ";
+        String idn = " ";
+        String img = " ";
+        int num10 = 0;
+        //System.out.println("222 MODIFICACION TIENDA");
+        if (!tiendaList.isEmpty()) {
+
+            num2 = tiendaList.size();
+
+            //System.out.println(" la lista ya tiene elementos");
+            for (int k = 0; k < trae.getListaAtribu().size(); k++) {
+                tipo = trae.getListaAtribu().get(k).getTitulo();
+
+                if ("codigo".equals(tipo)) {
+                    tipoc = trae.getListaAtribu().get(k).getContenido();
+                    //  System.out.println(tipo+tipoc);
+                }
+
+                if ("propietario".equals(tipo)) {
+                    propietario = trae.getListaAtribu().get(k).getContenido();
+                    // System.out.println(tipo+propietario);
+                }
+
+            }
+            for (int i = 0; i < tiendaList.size(); i++) {
+
+                num = i;
+                //System.out.println(usuarioList.size());
+                for (int j = 0; j < tiendaList.get(i).getListaAtribu().size(); j++) {
+                    id = tiendaList.get(i).getListaAtribu().get(j).getTitulo();
+                    num10 = tiendaList.get(i).getListaAtribu().size();;
+                    if ("propietario".equals(id)) {
+
+                        propietario1 = tiendaList.get(i).getListaAtribu().get(j).getContenido();
+                        // System.out.println(id+propietario1);
+                    }
+
+                    if ("codigo".equals(id)) {
+
+                        idn = tiendaList.get(i).getListaAtribu().get(j).getContenido();
+                        //  System.out.println(id+idn);
+                        //System.out.println(id + " codigo " + idn);
+
+                    }
+                    if (idn.equals(tipoc) && propietario.equals(propietario1)) {
+                        // System.out.println("SON IGUALES " + idn + " = " + tipoc+" Y "+propietario+" = "+propietario1);
+                        elTF(trae);
+
+                        //SOLO ROMPE UN FOR (EL DEL CONFLICTO ) o:
+                        break;
+
+                    }
+                }
+            }
+
+        }
     }
 
+    private void elTF(elemento trae) {
+        //System.out.println("ELIMINANDO " + num);
+        eliminaProductos(trae);
+        tiendaList.remove(num);
+    }
+
+    private void eliminaProductos(elemento trae) {
+        String id2 = " ";
+        String id1 = " ";
+        String sucursal2 = " ";
+        String sucursal1 = " ";
+        int indice = 0;
+        int wa = 0;
+
+        for (int k = 0; k < trae.getListaAtribu().size(); k++) {
+            id2 = trae.getListaAtribu().get(k).getTitulo();
+
+            if ("codigo".equals(id2)) {
+
+                sucursal2 = trae.getListaAtribu().get(k).getContenido();
+                // System.out.println(sucursal2);
+            }
+        }
+
+        for (int i = 0; i < productoList.size(); i++) {
+            //System.out.println("acaaa");
+            wa = productoList.size();
+            indice = i;
+            for (int j = 0; j < productoList.get(i).getListaAtribu().size(); j++) {
+                sucursal1 = " ";
+                id1 = productoList.get(i).getListaAtribu().get(j).getTitulo();
+
+                if ("sucursal".equals(id1)) {
+
+                    sucursal1 = productoList.get(i).getListaAtribu().get(j).getContenido();
+                    // System.out.println(sucursal1);
+
+                }
+
+                if (sucursal1.equals(sucursal2)) {
+                    // System.out.println("SON IGUALES " + sucursal1 + " = " + sucursal2 + " " + indice);
+                    lista.add(indice);
+                }
+            }
+        }
+        if (lista.size() != 0) {
+            eliminaproducto(wa);
+
+        }
+
+    }
+
+    private void eliminaproducto(int wa) {
+        // System.out.println("eliminando " + indice);
+        for (int i = 0; i < lista.size(); i++) {
+
+            System.out.println(lista.get(i));
+
+            if (wa == productoList.size()) {
+                int ot = lista.get(i);
+                productoList.remove(ot);
+            } else {
+                int ot = lista.get(i) - 1;
+                productoList.remove(ot);
+            }
+
+        }
+
+    }
+
+    public void modificaP(elemento trae) {
+        String tipo = " ";
+        String titulo = " ";
+        //  System.out.println("MODIFICA TIENDA");
+        for (int i = 0; i < trae.getListaAtribu().size(); i++) {
+            titulo = trae.getListaAtribu().get(i).getTitulo();
+
+            if ("tipo".equals(titulo)) {
+                tipo = trae.getListaAtribu().get(i).getContenido();
+                // System.out.println(titulo);
+                if ("\"modificacion\"".equals(tipo) || "\"modificar\"".equals(tipo)) {
+                    //System.out.println(tipo);
+                    moP(trae);
+                }
+                if ("\"eliminar\"".equals(tipo)) {
+                    // System.out.println(tipo);
+                    elP(trae);
+                }
+            }
+
+        }
+    }
+
+    private void moP(elemento trae) {
+        String tipo = " ";
+        String tipoc = " ";
+        String propietario = " ";
+        String propietario1 = " ";
+        String id = " ";
+        String idn = " ";
+        String img = " ";
+        //System.out.println("222 MODIFICACION TIENDA");
+        if (!productoList.isEmpty()) {
+
+            //System.out.println(" la lista ya tiene elementos");
+            for (int k = 0; k < trae.getListaAtribu().size(); k++) {
+                tipo = trae.getListaAtribu().get(k).getTitulo();
+
+                if ("codigo".equals(tipo)) {
+                    tipoc = trae.getListaAtribu().get(k).getContenido();
+                    //  System.out.println(tipo+tipoc);
+                }
+
+                if ("sucursal".equals(tipo)) {
+                    propietario = trae.getListaAtribu().get(k).getContenido();
+                    // System.out.println(tipo+propietario);
+                }
+
+                if ("img".equals(tipo)) {
+                    img = trae.getListaAtribu().get(k).getContenido();
+
+                    File ru = new File(img.substring(1, img.length() - 1));
+                    if (!ru.exists()) {
+                        // System.out.println("NO EXISTE RUTA"+img);
+
+                        return;
+                    }
+
+                    //System.out.println("VERIFICANDO IMAGEN");
+                }
+            }
+            for (int i = 0; i < productoList.size(); i++) {
+                num = i;
+
+                //System.out.println(usuarioList.size());
+                for (int j = 0; j < productoList.get(i).getListaAtribu().size(); j++) {
+                    id = productoList.get(i).getListaAtribu().get(j).getTitulo();
+
+                    if ("sucursal".equals(id)) {
+
+                        propietario1 = productoList.get(i).getListaAtribu().get(j).getContenido();
+                        // System.out.println(id+propietario1);
+                        num = i;
+                    }
+
+                    if ("codigo".equals(id)) {
+
+                        idn = productoList.get(i).getListaAtribu().get(j).getContenido();
+                        //  System.out.println(id+idn);
+                        //System.out.println(id + " codigo " + idn);
+
+                    }
+
+                    if (idn.equals(tipoc) && propietario.equals(propietario1)) {
+                        // System.out.println("SON IGUALES " + idn + " = " + tipoc+" Y "+propietario+" = "+propietario1);
+                        moPF(trae);
+
+                    }
+                }
+            }
+
+        }
+
+    }
+
+    private void moPF(elemento trae) {
+        String tipo = " ";
+        String img = " ";
+        String nombre = " ";
+        String direccion = " ";
+        String telefono = " ";
+        String marca = " ";
+        String color = " ";
+
+        //    System.out.println("ENTRO AL ULTIMO MODIFICAR O:" + num);
+        for (int k = 0; k < trae.getListaAtribu().size(); k++) {
+            tipo = trae.getListaAtribu().get(k).getTitulo();
+            if ("nombre".equals(tipo)) {
+                nombre = trae.getListaAtribu().get(k).getContenido();
+                // System.out.println(nombre+tipo);
+                for (int j = 0; j < productoList.get(num).getListaAtribu().size(); j++) {
+                    if ("nombre".equals(productoList.get(num).getListaAtribu().get(j).getTitulo())) {
+
+                        productoList.get(num).getListaAtribu().get(j).setContenido(nombre);
+                        //System.out.println(tiendaList.get(num).getListaAtribu().get(j).getTitulo());
+                    }
+                }
+            }
+
+            if ("cantidad".equals(tipo)) {
+                direccion = trae.getListaAtribu().get(k).getContenido();
+                // System.out.println(direccion + tipo);
+                for (int j = 0; j < productoList.get(num).getListaAtribu().size(); j++) {
+                    if ("cantidad".equals(productoList.get(num).getListaAtribu().get(j).getTitulo())) {
+                        productoList.get(num).getListaAtribu().get(j).setContenido(direccion);
+                        //  System.out.println(tiendaList.get(num).getListaAtribu().get(j).getTitulo());
+                    }
+                }
+            }
+
+            if ("img".equals(tipo)) {
+                img = trae.getListaAtribu().get(k).getContenido();
+                //System.out.println(img+tipo);
+                for (int j = 0; j < productoList.get(num).getListaAtribu().size(); j++) {
+                    if ("img".equals(productoList.get(num).getListaAtribu().get(j).getTitulo())) {
+                        productoList.get(num).getListaAtribu().get(j).setContenido(img);
+                        // System.out.println(tiendaList.get(num).getListaAtribu().get(j).getTitulo());
+                    }
+                }
+
+            }
+            if ("tamaño".equals(tipo)) {
+                telefono = trae.getListaAtribu().get(k).getContenido();
+                // System.out.println(telefono+tipo);
+                for (int j = 0; j < productoList.get(num).getListaAtribu().size(); j++) {
+                    if ("tamaño".equals(productoList.get(num).getListaAtribu().get(j).getTitulo())) {
+                        productoList.get(num).getListaAtribu().get(j).setContenido(telefono);
+                        //System.out.println(tiendaList.get(num).getListaAtribu().get(j).getTitulo());
+                    }
+                }
+            }
+            if ("marca".equals(tipo)) {
+                marca = trae.getListaAtribu().get(k).getContenido();
+                // System.out.println(telefono+tipo);
+                for (int j = 0; j < productoList.get(num).getListaAtribu().size(); j++) {
+                    if ("marca".equals(productoList.get(num).getListaAtribu().get(j).getTitulo())) {
+                        productoList.get(num).getListaAtribu().get(j).setContenido(marca);
+                        //System.out.println(tiendaList.get(num).getListaAtribu().get(j).getTitulo());
+                    }
+                }
+            }
+            if ("color".equals(tipo)) {
+                color = trae.getListaAtribu().get(k).getContenido();
+                // System.out.println(telefono+tipo);
+                for (int j = 0; j < productoList.get(num).getListaAtribu().size(); j++) {
+                    if ("color".equals(productoList.get(num).getListaAtribu().get(j).getTitulo())) {
+                        productoList.get(num).getListaAtribu().get(j).setContenido(color);
+                        //System.out.println(tiendaList.get(num).getListaAtribu().get(j).getTitulo());
+                    }
+                }
+            }
+        }
+    }
+
+    private void elP(elemento trae) {
+        num = 0;
+        String tipo = " ";
+        String tipoc = " ";
+        String propietario = " ";
+        String propietario1 = " ";
+        String id = " ";
+        String idn = " ";
+        String img = " ";
+        int num10 = 0;
+        //System.out.println("222 MODIFICACION TIENDA");
+        if (!productoList.isEmpty()) {
+
+            num2 = productoList.size();
+
+            //System.out.println(" la lista ya tiene elementos");
+            for (int k = 0; k < trae.getListaAtribu().size(); k++) {
+                tipo = trae.getListaAtribu().get(k).getTitulo();
+
+                if ("codigo".equals(tipo)) {
+                    tipoc = trae.getListaAtribu().get(k).getContenido();
+                    //  System.out.println(tipo+tipoc);
+                }
+
+                if ("sucursal".equals(tipo)) {
+                    propietario = trae.getListaAtribu().get(k).getContenido();
+                    // System.out.println(tipo+propietario);
+                }
+
+            }
+            for (int i = 0; i < productoList.size(); i++) {
+
+                num = i;
+                //System.out.println(usuarioList.size());
+                for (int j = 0; j < productoList.get(i).getListaAtribu().size(); j++) {
+                    id = productoList.get(i).getListaAtribu().get(j).getTitulo();
+                    num10 = productoList.get(i).getListaAtribu().size();;
+                    if ("sucursal".equals(id)) {
+
+                        propietario1 = productoList.get(i).getListaAtribu().get(j).getContenido();
+                        // System.out.println(id+propietario1);
+                    }
+
+                    if ("codigo".equals(id)) {
+
+                        idn = productoList.get(i).getListaAtribu().get(j).getContenido();
+                        //  System.out.println(id+idn);
+                        //System.out.println(id + " codigo " + idn);
+
+                    }
+                    if (idn.equals(tipoc) && propietario.equals(propietario1)) {
+                        // System.out.println("SON IGUALES " + idn + " = " + tipoc+" Y "+propietario+" = "+propietario1);
+                        elPF(trae);
+
+                        //SOLO ROMPE UN FOR (EL DEL CONFLICTO ) o:
+                        break;
+                    }
+                }
+            }
+
+        }
+    }
+
+    private void elPF(elemento trae) {
+        // System.out.println("ELIMINANDO " + num);
+
+        productoList.remove(num);
+    }
 }
+
+//-------------------------------------------------COSAS QUE NO SIRVEN-----------------------------------
+//------------NO SIRVE SIN EL RETURN
+//    private void elT(elemento trae) {
+//        num = 0;
+//        String tipo = " ";
+//        String tipoc = " ";
+//        String propietario = " ";
+//        String propietario1 = " ";
+//        String id = " ";
+//        String idn = " ";
+//        String img = " ";
+//        //System.out.println("222 MODIFICACION TIENDA");
+//        if (!tiendaList.isEmpty()) {
+//
+//            num2 = tiendaList.size();
+//
+//            //System.out.println(" la lista ya tiene elementos");
+//            for (int i = 0; i < tiendaList.size(); i++) {
+//                num = i;
+//
+//                //System.out.println(usuarioList.size());
+//                for (int j = 0; j < tiendaList.get(i).getListaAtribu().size(); j++) {
+//                    id = tiendaList.get(i).getListaAtribu().get(j).getTitulo();
+//
+//                    if ("propietario".equals(id)) {
+//
+//                        propietario1 = tiendaList.get(i).getListaAtribu().get(j).getContenido();
+//                        // System.out.println(id+propietario1);
+//                    }
+//
+//                    if ("codigo".equals(id)) {
+//
+//                        idn = tiendaList.get(i).getListaAtribu().get(j).getContenido();
+//                        //  System.out.println(id+idn);
+//                        //System.out.println(id + " codigo " + idn);
+//
+//                    }
+//                    for (int k = 0; k < trae.getListaAtribu().size(); k++) {
+//                        tipo = trae.getListaAtribu().get(k).getTitulo();
+//
+//                        if ("codigo".equals(tipo)) {
+//                            tipoc = trae.getListaAtribu().get(k).getContenido();
+//                            //  System.out.println(tipo+tipoc);
+//                        }
+//
+//                        if ("propietario".equals(tipo)) {
+//                            propietario = trae.getListaAtribu().get(k).getContenido();
+//                            // System.out.println(tipo+propietario);
+//                        }
+//
+//                        if ("img".equals(tipo)) {
+//                            img = trae.getListaAtribu().get(k).getContenido();
+//
+//                            File ru = new File(img.substring(1, img.length() - 1));
+//                            if (!ru.exists()) {
+//                                // System.out.println("NO EXISTE RUTA"+img);
+//
+//                                parser.banderita = true;
+//                            }
+//
+//                            //System.out.println("VERIFICANDO IMAGEN");
+//                        }
+//                    }
+//
+//                    if (idn.equals(tipoc) && propietario.equals(propietario1)) {
+//                        // System.out.println("SON IGUALES " + idn + " = " + tipoc+" Y "+propietario+" = "+propietario1);
+//                        elTF(trae);
+//                        return;
+//                    }
+//                }
+//            }
+//
+//        }
+//    }

@@ -7,6 +7,8 @@ package Analizador;
 
 import java_cup.runtime.*;
 import proyecto1compi.*;
+import java.util.Collections;
+import java.util.Comparator;
 import Listas.*;
 import java.util.ArrayList;
 import java_cup.runtime.XMLElement;
@@ -717,7 +719,12 @@ listaA=new ArrayList<Atributos>();
                 }*/
 
                 
-
+                
+        Collections.sort(listaA, new Comparator<Atributos>() {
+            public int compare(Atributos obj1, Atributos obj2) {
+                return obj1.getTitulo().compareTo(obj2.getTitulo());
+            }
+        });
                 elemento usuario = new elemento(cont,listaA);
 
                 ventanaPrincipal verifica = new ventanaPrincipal();
@@ -785,6 +792,9 @@ listaA=new ArrayList<Atributos>();
                 com.comparadorP(listaAux);
 
                 elemento moP = new elemento(cont4,listaAux);
+
+                ventanaPrincipal verifica = new ventanaPrincipal();
+                verifica.modificaP(moP);
                 ventanaPrincipal.modificaPList.add(moP);
                 cont4++;
 
@@ -821,6 +831,12 @@ listaB=new ArrayList<Atributos>();
 		/*for ( int i = 0; i<listaB.size();i++){
                 System.out.println(listaB.get(i).getTitulo());
                 }*/
+
+                            Collections.sort(listaB, new Comparator<Atributos>() {
+            public int compare(Atributos obj1, Atributos obj2) {
+                return obj1.getTitulo().compareTo(obj2.getTitulo());
+            }
+        });
 
                 elemento producto = new elemento(cont2,listaB);
 
@@ -925,6 +941,12 @@ listaC=new ArrayList<Atributos>();
 		/*for ( int i = 0; i<listaC.size();i++){
                 System.out.println(listaC.get(i).getTitulo());
                 }*/
+
+        Collections.sort(listaC, new Comparator<Atributos>() {
+            public int compare(Atributos obj1, Atributos obj2) {
+                return obj1.getTitulo().compareTo(obj2.getTitulo());
+            }
+        });
 
                 elemento tienda = new elemento(cont3,listaC);
 

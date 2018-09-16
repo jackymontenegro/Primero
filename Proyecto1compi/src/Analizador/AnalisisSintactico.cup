@@ -3,7 +3,8 @@ package Analizador;
 
 import java_cup.runtime.*;
 import proyecto1compi.*;
-
+import java.util.Collections;
+import java.util.Comparator;
 import Listas.*;
 import java.util.ArrayList;
 
@@ -194,7 +195,12 @@ REQINS::= dolar iniciou dolar USUARIOIS dolar{:
                 }*/
 
                 
-
+                
+        Collections.sort(listaA, new Comparator<Atributos>() {
+            public int compare(Atributos obj1, Atributos obj2) {
+                return obj1.getTitulo().compareTo(obj2.getTitulo());
+            }
+        });
                 elemento usuario = new elemento(cont,listaA);
 
                 ventanaPrincipal verifica = new ventanaPrincipal();
@@ -234,6 +240,9 @@ REQINS::= dolar iniciou dolar USUARIOIS dolar{:
                 com.comparadorP(listaAux);
 
                 elemento moP = new elemento(cont4,listaAux);
+
+                ventanaPrincipal verifica = new ventanaPrincipal();
+                verifica.modificaP(moP);
                 ventanaPrincipal.modificaPList.add(moP);
                 cont4++;
 
@@ -252,6 +261,12 @@ REQINS::= dolar iniciou dolar USUARIOIS dolar{:
                 {:/*for ( int i = 0; i<listaB.size();i++){
                 System.out.println(listaB.get(i).getTitulo());
                 }*/
+
+                            Collections.sort(listaB, new Comparator<Atributos>() {
+            public int compare(Atributos obj1, Atributos obj2) {
+                return obj1.getTitulo().compareTo(obj2.getTitulo());
+            }
+        });
 
                 elemento producto = new elemento(cont2,listaB);
 
@@ -312,6 +327,12 @@ REQINS::= dolar iniciou dolar USUARIOIS dolar{:
                 {:/*for ( int i = 0; i<listaC.size();i++){
                 System.out.println(listaC.get(i).getTitulo());
                 }*/
+
+        Collections.sort(listaC, new Comparator<Atributos>() {
+            public int compare(Atributos obj1, Atributos obj2) {
+                return obj1.getTitulo().compareTo(obj2.getTitulo());
+            }
+        });
 
                 elemento tienda = new elemento(cont3,listaC);
 
